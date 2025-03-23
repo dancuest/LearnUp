@@ -1,62 +1,48 @@
 import { Link } from "@inertiajs/react";
-import { Button } from "@/components/ui/button";
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 
-const Navbar = () => {
+export default function Navbar() {
     return (
-        <nav className="bg-blue-600 p-4 text-white">
-            <div className="container mx-auto flex justify-between items-center">
+        <nav className="bg-[#0A1F56] text-white py-3 px-6 shadow-md flex items-center justify-between">
+            {/* Contenedor Izquierdo: Logo + Menú */}
+            <div className="flex items-center space-x-8">
                 {/* Logo */}
-                <Link href="/" className="text-xl font-bold">
-                    LearnUp
-                </Link>
+                <img
+                    src="/logo.png" // Asegúrate de cambiar la ruta por la correcta
+                    alt="LearnUp Logo"
+                    className="h-12 w-12 rounded-full border border-gray-300"
+                />
 
-                {/* Menú para pantallas grandes */}
-                <div className="hidden md:flex space-x-6">
-                    <Button asChild variant="ghost">
-                        <Link href="/">Inicio</Link>
-                    </Button>
-                    <Button asChild variant="ghost">
-                        <Link href="/cursos">Cursos</Link>
-                    </Button>
-                    <Button asChild variant="ghost">
-                        <Link href="/evaluaciones">Evaluaciones</Link>
-                    </Button>
-                    <Button asChild variant="ghost">
-                        <Link href="/mensajes">Mensajes</Link>
-                    </Button>
-                </div>
-
-                {/* Menú para móviles con Dropdown */}
-                <div className="md:hidden">
-                    <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                            <Button variant="outline">☰</Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end" className="bg-blue-700 text-white">
-                            <DropdownMenuItem>
-                                <Link href="/">Inicio</Link>
-                            </DropdownMenuItem>
-                            <DropdownMenuItem>
-                                <Link href="/cursos">Cursos</Link>
-                            </DropdownMenuItem>
-                            <DropdownMenuItem>
-                                <Link href="/evaluaciones">Evaluaciones</Link>
-                            </DropdownMenuItem>
-                            <DropdownMenuItem>
-                                <Link href="/mensajes">Mensajes</Link>
-                            </DropdownMenuItem>
-                        </DropdownMenuContent>
-                    </DropdownMenu>
-                </div>
+                {/* Menú de navegación */}
+                <ul className="flex space-x-8 text-lg font-semibold">
+                    <li>
+                        <Link
+                            href="/dashboard"
+                            className="relative after:absolute after:bottom-[-3px] after:left-0 after:w-full after:h-[2px] after:bg-white after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:duration-300"
+                        >
+                            Página Principal
+                        </Link>
+                    </li>
+                    <li>
+                        <Link
+                            href="/area-personal"
+                            className="relative after:absolute after:bottom-[-3px] after:left-0 after:w-full after:h-[2px] after:bg-white after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:duration-300"
+                        >
+                            Área Personal
+                        </Link>
+                    </li>
+                    <li>
+                        <Link
+                            href="/horarios"
+                            className="relative after:absolute after:bottom-[-3px] after:left-0 after:w-full after:h-[2px] after:bg-white after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:duration-300"
+                        >
+                            Horarios
+                        </Link>
+                    </li>
+                </ul>
             </div>
+
+            {/* Botón de perfil o modo oscuro alineado a la derecha */}
+            <div className="h-10 w-10 bg-gray-300 rounded-full"></div>
         </nav>
     );
-};
-
-export default Navbar;
+}
