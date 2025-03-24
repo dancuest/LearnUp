@@ -7,7 +7,7 @@ export default function Navbar() {
             <div className="flex items-center space-x-8">
                 {/* Logo */}
                 <img
-                    src="/logo.png" // Asegúrate de cambiar la ruta por la correcta
+                    src="/logo.png"
                     alt="LearnUp Logo"
                     className="h-12 w-12 rounded-full border border-gray-300"
                 />
@@ -41,8 +41,7 @@ export default function Navbar() {
                 </ul>
             </div>
 
-            {/* Botón de perfil o modo oscuro alineado a la derecha */}
-            <div className="h-10 w-10 bg-gray-300 rounded-full"></div>
+            <div className="h-10 w-10 bg-gray-300 rounded-full"></div>{/* foto de perfil */}
         </nav>
     );
 }
