@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ImageController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -16,6 +17,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return Inertia::render('dashboard');
     })->name('dashboard');
 });
+Route::post('/image/upload', [ImageController::class, 'store'])->name('image.store');
+Route::delete('/image/delete', [ImageController::class, 'destroy'])->name('image.delete');
 
 require __DIR__ . '/settings.php';
 require __DIR__ . '/auth.php';
