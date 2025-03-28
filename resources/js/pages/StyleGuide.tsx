@@ -1,9 +1,13 @@
 import Navbar from "@/components/navbar";
 
 export default function StyleGuide() {
+    const propsNavbar = {
+        profileImage: "/imagenes/Item.png",
+    }
+
     return (
         <div className="min-h-screen bg-white text-[#1b1b18] dark:bg-[#0a0a0a]">
-            <Navbar />
+            <Navbar props={propsNavbar}/>
 
             <div className="pt-20 p-6 lg:p-8">
                 <h1 className="text-3xl font-bold">Style Guide</h1>

@@ -1,10 +1,12 @@
 import { Link } from "@inertiajs/react";
 
 interface NavbarProps {
-    profileImage?: string; // Optional string type for profileImage
+    profileImage?: string; 
 }
 
-export default function Navbar({ profileImage }: NavbarProps) {
+export default function Navbar({ props }: {props: NavbarProps}) {
+    const { profileImage }: NavbarProps = props;
+    
     return (
         <nav className="bg-[#0A1F56] text-white py-3 px-6 shadow-md flex items-center justify-between">
             <div className="flex items-center space-x-8">
