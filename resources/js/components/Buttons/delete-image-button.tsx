@@ -12,9 +12,7 @@ const DeleteImageButton: React.FC<DeleteImageProps> = ({ table, rowId, column })
 
     const handleDelete = () => {
         if (confirm('¿Estás seguro de que deseas eliminar esta imagen?')) {
-            destroy(route('image.destroy'), {
-                data: { table, row_id: rowId, column },
-            });
+            destroy(route('image.destroy', { table, row_id: rowId, column }));
         }
     };
 
