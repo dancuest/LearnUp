@@ -1,15 +1,21 @@
 import { Link } from "@inertiajs/react";
 
-export default function Navbar() {
+interface NavbarProps {
+    profileImage?: string; // Optional string type for profileImage
+}
+
+export default function Navbar({ profileImage }: NavbarProps) {
     return (
         <nav className="bg-[#0A1F56] text-white py-3 px-6 shadow-md flex items-center justify-between">
-            <div className="flex items-center space-x-8">  {/* Logo */}
+            <div className="flex items-center space-x-8">
+                {/* Logo */}
                 <img
                     src="/imagenes/logo.png" 
                     alt="LearnUp Logo"
                     className="h-16 -mt-4 -mb-4 -ml-4"
                 />
 
+                {/* Menú de Navegación */}
                 <ul className="flex space-x-8 text-lg font-semibold">
                     <li>
                         <Link
@@ -38,7 +44,12 @@ export default function Navbar() {
                 </ul>
             </div>
 
-            <div className="h-10 w-10 bg-gray-300 rounded-full"></div>{/* Botón de perfil */}
+            {/* Imagen de Perfil */}
+            <img
+                src={profileImage || "/imagenes/Item.png"} // Imagen por defecto si no se recibe
+                alt="Foto de perfil"
+                className="h-10 w-10 rounded-full object-cover border-2 border-white shadow-md"
+            />
         </nav>
     );
 }
