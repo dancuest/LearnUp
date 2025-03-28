@@ -4,14 +4,12 @@ export default function Navbar() {
     return (
         <nav className="bg-[#0A1F56] text-white py-3 px-6 shadow-md flex items-center justify-between">
             <div className="flex items-center space-x-8">  {/* Logo */}
-                {/* Logo */}
                 <img
-                    src="/logo.png" 
+                    src="/imagenes/logo.png" 
                     alt="LearnUp Logo"
-                    className="h-12 w-12 rounded-full border border-gray-300"
+                    className="h-16 -mt-4 -mb-4 -ml-4"
                 />
 
-                {/* Menú de navegación */}
                 <ul className="flex space-x-8 text-lg font-semibold">
                     <li>
                         <Link
