@@ -3,6 +3,13 @@ import Target from "@/components/target";
 
 export default function StyleGuide() {
 
+    const propsTargetInstitucion = {
+        backgroundImage: "/imagenes/FondoUniversidad.jpg",
+        icon: "/imagenes/ItemUniversidad.png",
+        name: "Universidad del Valle",
+        enrolled: 199,
+    };
+
     return (<div className="flex min-h-screen flex-col items-start p-6 text-[#1b1b18] lg:justify-start lg:p-8 dark:bg-[#0a0a0a]">
         <h1>Style Guide</h1>
         <p>This is a style guide for the application.</p>
@@ -16,12 +23,7 @@ export default function StyleGuide() {
         <p>This is a sample paragraph to demonstrate typography.</p>
         <b></b>
         <h2> Componente Target</h2>
-        <Target 
-        backgroundImage="/imagenes/FondoUniversidad.jpg" 
-        icon="/imagenes/ItemUniversidad.png" 
-        name="Universidad del valle" 
-        enrolled={199}  
-        />
+        <Target props={propsTargetInstitucion}/>
 
 
 

@@ -5,7 +5,9 @@ interface TargetProps {
     enrolled: number;
 }
 
-export default function Target({ backgroundImage, icon, name, enrolled }: TargetProps) {
+export default function Target({props}: { props: TargetProps }) {
+    const { backgroundImage, icon, name, enrolled }: TargetProps= props
+    
     return (
         <div className="w-[350px] bg-white rounded-lg overflow-hidden shadow-lg">
             <div
