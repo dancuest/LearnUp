@@ -1,7 +1,7 @@
 import { type SharedData } from '@/types';
 import { Head, Link, usePage } from '@inertiajs/react';
-import logo from '@../../public/build/assets/Logo.png';
-import background from '@../../public/build/assets/background.png';
+import logo from '@../../public/imagenes/Logo.png';
+import background from '@../../public/imagenes/background.png';
 
 
 export default function Welcome() {
@@ -15,11 +15,11 @@ export default function Welcome() {
             </Head>
             <div
                 className="flex min-h-screen flex-col items-center bg-contain  bg-center bg-white bg-no-repeat p-6 text-[#1b1b18] lg:justify-center lg:p-8"
-                style={{ backgroundImage: "url('/build/assets/background.png')" }}
+                style={{ backgroundImage: "url('/imagenes/background.png')" }}
             >                   
                 {/* Logo */}
                 <div className="mb-6 text-center">
-                    <img src="/build/assets/Logo.png" alt="LearnUp Logo" className="w-64 mx-auto" />
+                    <img src="/imagenes/Logo.png" alt="LearnUp Logo" className="w-64 mx-auto" />
 
                 </div>
                 
