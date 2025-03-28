@@ -15,6 +15,7 @@ class Institucion extends Model
         'tipo',
         'capacidad',
         'imagen_perfil',
+        'descripcion',
     ];
 
     /**
