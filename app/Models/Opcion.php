@@ -9,7 +9,6 @@ class Opcion extends Model
 {
     use HasFactory;
 
-    protected $table = 'opciones';
     protected $fillable = [
         'cantidad'
     ];

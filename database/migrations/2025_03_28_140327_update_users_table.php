@@ -12,9 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->date('fecha_nacimiento');
-            $table->string('sexo');
-            $table->string('imagen_perfil')->nullable();
+          
+            $table->date('fecha_nacimiento')->default('2000-01-01');
+            $table->string('sexo')->default('no especifica');
+            $table->string('imagen_perfil')->nullable()->default('default-image.png');
         });
     }
 

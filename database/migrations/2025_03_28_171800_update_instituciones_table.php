@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('instituciones', function (Blueprint $table) {
-            $table->longText('descripcion');
+            $table->longText('descripcion')->default('sin descripción');
         });
     }
 

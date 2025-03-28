@@ -136,6 +136,9 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::dropIfExists('accede_institucion_user');
+        Schema::dropIfExists('ensena_institucion_user');
+        Schema::dropIfExists('estudia_curso_user');
         Schema::dropIfExists('respuestas');
         Schema::dropIfExists('opciones');
         Schema::dropIfExists('preguntas');
@@ -147,8 +150,5 @@ return new class extends Migration
         Schema::dropIfExists('cursos');
         Schema::dropIfExists('instituciones');
         Schema::dropIfExists('assets');
-        Schema::dropIfExists('accede_institucion_user');
-        Schema::dropIfExists('ensena_institucion_user');
-        Schema::dropIfExists('estudia_curso_user');
     }
 };
