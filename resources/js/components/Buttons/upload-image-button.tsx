@@ -11,7 +11,7 @@ const UploadImageButton: React.FC<UploadImageProps> = ({ table, rowId, column })
     const { data, setData, post, progress, errors } = useForm({
         file: null as File | null,
         table,
-        row_id: rowId,
+        rowId,
         column,
     });
 
@@ -26,27 +26,27 @@ const UploadImageButton: React.FC<UploadImageProps> = ({ table, rowId, column })
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        console.log('Datos enviados:', data);
+
+        if (!data.file) {
+            alert('Selecciona un archivo primero');
+            return;
+        }
 
         post(route('image.store'), {
             forceFormData: true,
-            onError: (error) => {
-                console.error('Error al subir la imagen:', error);
+            onError: (errors) => {
+                alert(errors.error || 'Error al subir la imagen');
             },
             onSuccess: () => {
-                console.log('Imagen subida exitosamente.');
+                alert('Imagen subida con éxito');
+                // Aquí puedes actualizar la UI si es necesario
             },
         });
     };
 
     return (
         <form onSubmit={handleSubmit}>
-            <input type="file" onChange={handleFileChange} />
-            {progress && (
-                <progress value={progress.percentage} max="100">
-                    {progress.percentage}%
-                </progress>
-            )}
+            <input type="file" onChange={handleFileChange} name='file' />
             {errors.file && <div>{errors.file}</div>}
             <button type="submit">Subir Imagen</button>
         </form>
