@@ -44,10 +44,11 @@ import 'swiper/css/bundle';
 
 export default function Carrusel({ className, numSlide, imagenes }: { className?: string, numSlide?: number, imagenes?: string[] }) {
     const [isReady, setIsReady] = useState(false);
-
     useEffect(() => {
         setIsReady(true);
     }, []);
+
+
 
     if (!isReady) return <div className={className}></div>;
     if (!imagenes) return null;
@@ -69,15 +70,15 @@ export default function Carrusel({ className, numSlide, imagenes }: { className?
                 slideShadows: true
             }}
             loop={true}
-            autoplay={{ delay: 4000, disableOnInteraction: true }}
-            onMouseEnter={(swiper) => (swiper as any).autoplay.stop()}
-            onMouseLeave={(swiper) => (swiper as any).autoplay.start()}
+            autoplay={{ delay: 2000, disableOnInteraction: true }}
+            onAutoplayStop={() => console.log("Autoplay stopped")}
+            onAutoplayStart={() => console.log("Autoplay started")}
         >
             {imagenes.map((imagen, index) => (
                 <SwiperSlide
                     key={index}
                     className=" w-[22rem] h-[12rem] transition-all duration-300 ease-in-out 
-                       swiper-slide-active:w-[28rem] swiper-slide-active:h-[16rem]"
+                   swiper-slide-active:w-[28rem] swiper-slide-active:h-[16rem]"
                 >
                     <div className=" w-full h-full">
                         <img
