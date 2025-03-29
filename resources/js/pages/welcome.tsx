@@ -40,10 +40,6 @@ export default function Welcome() {
                                             Register
                                         </Link>
                                     </div>
-                                    <div className='w-full max-w-[800px] h-[400px] flex justify-center'>
-                                        <Carrusel></Carrusel>
-                                    </div>
-
                                 </div>
                             </>
                         )}
