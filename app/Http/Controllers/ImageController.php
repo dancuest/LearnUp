@@ -33,7 +33,6 @@ class ImageController extends Controller
             // Verificación de la existencia del registro en la base de datos
             $existingRecord = DB::table($table)->where('id', $rowId)->first();
             Log::info('Existing record:', (array) $existingRecord->{$column}); // Logs the record for debugging
-            echo ($existingRecord->{$column}); // This line is not valid PHP syntax
 
             if (!$existingRecord) {
                 return back()->withErrors(['error' => 'Registro no encontrado en la base de datos.']);
@@ -61,7 +60,8 @@ class ImageController extends Controller
             }
 
             // Obtención de la URL pública de la imagen
-            $url = Storage::disk('s3')->url($path);
+            $bucketUrl = config('filesystems.disks.s3.url'); // Ensure this is set in your config
+            $url = $bucketUrl . '/' . $path;
 
             // Actualización del registro en la base de datos
             DB::table($table)->where('id', $rowId)->update([
