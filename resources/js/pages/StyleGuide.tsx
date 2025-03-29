@@ -1,4 +1,6 @@
 import Navbar from "@/components/navbar";
+import UploadImageButton from "@/components/Buttons/upload-image-button";
+import { Upload } from "lucide-react";
 
 export default function StyleGuide() {
     const propsNavbar = {
@@ -27,6 +29,7 @@ export default function StyleGuide() {
                     This is a sample paragraph to demonstrate typography.
                 </p>
             </div>
-        </div>
-    );
+        <UploadImageButton table="users" rowId={1} column="imagen_perfil" />
+    </div>
+    )
 }
