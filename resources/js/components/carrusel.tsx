@@ -4,6 +4,31 @@ import { useState, useEffect, useRef } from 'react';
 import 'swiper/css';
 import 'swiper/css/bundle';
 
+/**
+ * Componente Carrusel que utiliza Swiper.js para mostrar un carrusel interactivo de imágenes.
+ * 
+ * @param {Object} props - Propiedades del componente.
+ * @param {string} [props.className] - Clase CSS opcional para personalizar el estilo del contenedor del carrusel.
+ * @param {number} [props.numSlide] - Número de diapositivas visibles al mismo tiempo. Por defecto es 1.
+ * @param {string[]} [props.imagenes] - Arreglo de URLs de las imágenes que se mostrarán en el carrusel.
+ * 
+ * @returns {JSX.Element | null} - Retorna el carrusel si las imágenes están disponibles, 
+ * o un contenedor vacío si el componente aún no está listo.
+ * 
+ * @description
+ * Este componente utiliza Swiper.js con los módulos de navegación, paginación, reproducción automática 
+ * y efecto de "coverflow". Incluye interacciones para pausar la reproducción automática cuando el usuario 
+ * interactúa con el carrusel (mouse o touch) y reanudarla después de un tiempo de inactividad.
+ * 
+ * @example
+ * ```tsx
+ * <Carrusel 
+ *   className="mi-clase-personalizada" 
+ *   numSlide={3} 
+ *   imagenes={['imagen1.jpg', 'imagen2.jpg', 'imagen3.jpg']} 
+ * />
+ * ```
+ */
 export default function Carrusel({ className, numSlide, imagenes }: { className?: string, numSlide?: number, imagenes?: string[] }) {
     const [isReady, setIsReady] = useState(false);
     const swiperRef = useRef<any>(null);
