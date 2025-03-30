@@ -41,7 +41,7 @@ export default function SettingsLayout({ children }: PropsWithChildren) {
                                 variant="ghost"
                                 asChild
                                 className={cn('w-full justify-start', {
-                                    'bg-muted': currentPath === item.url,
+                                    'bg-blue-400': currentPath === item.url,
                                 })}
                             >
                                 <Link href={item.url} prefetch>
@@ -54,7 +54,7 @@ export default function SettingsLayout({ children }: PropsWithChildren) {
 
                 <Separator className="my-6 md:hidden" />
 
-                <div className="flex-1 md:max-w-2xl">
+                <div className="border-b-blue-500 rounded-2xl p-6 p-6s shadow-xl flex-1 md:max-w-2xl">
                     <section className="max-w-xl space-y-12">{children}</section>
                 </div>
             </div>
