@@ -1,12 +1,12 @@
-interface TargetProps {
+interface UniversityCardProps {
     backgroundImage: string | File;
     icon: string | File;
     name: string;
     enrolled: number;
 }
 
-export default function Target({props}: { props: TargetProps }) {
-    const { backgroundImage, icon, name, enrolled }: TargetProps= props
+export default function UniversityCard({props}: { props: UniversityCardProps }) {
+    const { backgroundImage, icon, name, enrolled }: UniversityCardProps = props
     
     return (
         <div className="w-[350px] bg-white rounded-lg overflow-hidden shadow-lg">

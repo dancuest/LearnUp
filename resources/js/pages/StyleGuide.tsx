@@ -1,4 +1,4 @@
-import Target from "@/components/target";
+import Target from "@/components/UniversityCard";
 
 
 export default function StyleGuide() {
