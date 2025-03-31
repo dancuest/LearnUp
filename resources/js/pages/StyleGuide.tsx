@@ -1,5 +1,4 @@
-import Target from "@/components/InstitutionTarget";
-
+import InstitutionTarget from "@/components/InstitutionTarget";
 
 export default function StyleGuide() {
 
@@ -23,7 +22,7 @@ export default function StyleGuide() {
         <p>This is a sample paragraph to demonstrate typography.</p>
         <b></b>
         <h2> Componente Target</h2>
-        <Target props={propsTargetInstitucion}/>
+        <InstitutionTarget props={propsTargetInstitucion} />
 
 
 
