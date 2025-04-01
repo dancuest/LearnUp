@@ -51,7 +51,7 @@ const UploadImageButton: React.FC<UploadImageProps> = ({ table, rowId, column })
             onSuccess: () => {
                 console.log('Imagen subida con éxito');
                 setUploading(false);
-                setPreview(null); // Limpiar la previsualización después de subir
+                setPreview(null);
             },
         });
     };
