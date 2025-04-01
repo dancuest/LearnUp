@@ -1,3 +1,4 @@
+import InstitutionTarget from "@/components/InstitutionTarget";
 import Carrusel from "@/components/carrusel";
 import Navbar from "@/components/navbar";
 import UploadImageButton from "@/components/Buttons/upload-image-button";
@@ -7,6 +8,12 @@ export default function StyleGuide() {
     const propsNavbar = {
         profileImage: "/imagenes/Item.png",
     }
+    const propsTargetInstitucion = {
+        backgroundImage: "/imagenes/FondoUniversidad.jpg",
+        icon: "/imagenes/ItemUniversidad.png",
+        name: "Universidad del Valle",
+        enrolled: 199,
+    };
 
     return (
         <>
@@ -16,7 +23,6 @@ export default function StyleGuide() {
                 <div className="pt-20 p-6 lg:p-8">
                     <h1 className="text-3xl font-bold">Style Guide</h1>
                     <p className="mt-4">This is a style guide for the application.</p>
-
                     {/* Sección de colores */}
                     <h2 className="text-2xl font-semibold mt-8">Colors</h2>
                     <ul className="mt-4 space-y-2">
@@ -41,6 +47,8 @@ export default function StyleGuide() {
                     </p>
                 </div>
                 <UploadImageButton table="users" rowId={1} column="imagen_perfil" />
+                <h2> Componente Target</h2>
+                <InstitutionTarget props={propsTargetInstitucion} />
             </div>
         </>
     )
