@@ -1,6 +1,8 @@
 import { Head, useForm } from '@inertiajs/react';
 import { LoaderCircle } from 'lucide-react';
 import { FormEventHandler } from 'react';
+import Toastify from 'toastify-js';
+import 'toastify-js/src/toastify.css';
 
 import InputError from '@/components/input-error';
 import TextLink from '@/components/text-link';
@@ -10,7 +12,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 
 interface LoginProps {
-    status: string; // Adjust the type as per your actual data
+    status: string;
     canResetPassword: boolean;
 }
 
@@ -25,14 +27,34 @@ export default function Login({ status, canResetPassword }: LoginProps) {
         remember: false,
     });
 
+    const showToast = (message: string, type: 'success' | 'error') => {
+        Toastify({
+            text: message,
+            duration: 3000,
+            gravity: 'top',
+            position: 'right',
+            backgroundColor: type === 'success' ? 'green' : 'red',
+            close: true,
+        }).showToast();
+    };
+
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
         post(route('login'), {
+            onSuccess: () => {
+                showToast('Inicio de sesión exitoso 🎉', 'success');
+            },
+            onError: (errors) => {
+                if (errors.email || errors.password) {
+                    showToast('Datos incorrectos. Inténtalo de nuevo.', 'error');
+                } else {
+                    showToast('Ocurrió un error inesperado.', 'error');
+                }
+            },
             onFinish: () => reset('password'),
         });
     };
     
-
     return (
         <>
             <Head title="Iniciar Sesión" />
@@ -40,16 +62,14 @@ export default function Login({ status, canResetPassword }: LoginProps) {
                 className="flex min-h-screen flex-col items-center bg-contain bg-center bg-white bg-no-repeat p-6 text-[#1b1b18] lg:justify-center lg:p-8"
                 style={{ backgroundImage: "url('/imagenes/background.png')" }}
             >
-                {/* Logo */}
                 <div className="-mt-4 text-center">
                     <img src="/imagenes/Logo.png" alt="LearnUp Logo" className="w-64 mx-auto" />
                 </div>
                 
-                {/* Login Form */}
                 <div className="bg-[#E3ECF6] p-8 rounded-2xl shadow-lg w-100 text-center">
                     <h2 className="text-xl font-bold mb-4">Iniciar Sesión</h2>
                     <form className="space-y-4" onSubmit={submit}>
-                        <div className="grid gap-2 justify-items-start  ">
+                        <div className="grid gap-2 justify-items-start">
                             <Label className='ml-2' htmlFor="email">Correo Electrónico</Label>
                             <Input className='bg-white rounded-4xl border-2 border-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-400'
                                 id="email"
