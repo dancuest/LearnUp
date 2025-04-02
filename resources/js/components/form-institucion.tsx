@@ -4,6 +4,8 @@ import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
+import { Textarea } from "@headlessui/react";
+
 
 interface FormInstitucionProps {
     [key: string]: string | number;
@@ -36,18 +38,13 @@ export default function FormInstitucion() {
     };
 
     return (
-        <div className="border-b-blue-500 rounded-2xl p-6 shadow-xl">
-            <div className="bg-white shadow-md space-y-4 rounded px-8 pt-6 pb-8 mb-4 w-full max-w-md">
-                <div className="flex items-center justify-center mb-4">
-                    <img
-                        src="/imagenes/Logo.png"
-                        alt="LearnUp Logo"
-                        className="flex items-center justify-center h-36"
-                    />
-                </div>
+        <div className="border-b-blue-500 rounded-4xl p-6 shadow-xl dark:text-white">
+            <div className="shadow-md space-y-4 rounded-3xl px-8 pt-6 pb-8 mb-4 w-full max-w-md 
+            dark:bg-black
+            ">
                 <HeadingSmall title="Profile information" description="Update your profile information" />
-                <form className="space-y-4" onSubmit={Submit}>
-                    <div className="mb-4">
+                <form className="space-y-4 dark:text-white" onSubmit={Submit}>
+                    <div className="mb-4 ">
                         <Label htmlFor="titulo">Nombre</Label>
                         <Input
                             type="text"
@@ -60,10 +57,10 @@ export default function FormInstitucion() {
                     </div>
                     <div className="mb-4">
                         <Label htmlFor="descripcion">Descripción</Label>
-                        <Input
-                            type="text"
+                        <Textarea
+                            rows={3}
                             id="descripcion"
-                            className="mt-1 block w-full border-blue-600"
+                            className="mt-1 block w-full border border-blue-600 rounded-md shadow-sm "
                             placeholder="Descripcion"
                             value={data.descripcion || ''}
                             onChange={(e) => setData('descripcion', e.target.value)}
@@ -78,7 +75,7 @@ export default function FormInstitucion() {
                             <SelectTrigger className="mt-1 block w-full border-blue-600 rounded px-4 py-2">
                                 <SelectValue placeholder="Selecciona un tipo" />
                             </SelectTrigger>
-                            <SelectContent className="bg-blue-500 border rounded shadow-amber-100">
+                            <SelectContent className="bg-blue-400 border border-blue-800 rounded shadow-md shadow-blue-400">
                                 <SelectItem value="publico">Público</SelectItem>
                                 <SelectItem value="privado">Privado</SelectItem>
                             </SelectContent>
@@ -96,7 +93,9 @@ export default function FormInstitucion() {
                         />
                     </div>
                     <div className="flex items-center justify-between">
-                        <Button type="submit" className="bg-blue-600" disabled={processing}>
+                        <Button type="submit" className="bg-blue-600 dar"
+                            variant={"ghost"}
+                            disabled={processing}>
                             Save
                         </Button>
                     </div>

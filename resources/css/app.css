@@ -162,7 +162,7 @@
 :root,
 body {
     height: 100vh;
-    overflow: hidden;
+    overflow: auto;
 }
 
 .pages {

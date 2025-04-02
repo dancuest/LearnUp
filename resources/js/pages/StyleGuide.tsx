@@ -18,7 +18,7 @@ export default function StyleGuide() {
     return (
         <>
             <Navbar props={propsNavbar} />
-            <div className="pages bg-white text-[#1b1b18]  overflow-y-auto">
+            <div className="pages text-[#1b1b18]">
 
                 <div className="pt-20 p-6 lg:p-8">
                     <h1 className="text-3xl font-bold">Style Guide</h1>
