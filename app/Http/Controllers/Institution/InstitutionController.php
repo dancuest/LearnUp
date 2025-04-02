@@ -33,12 +33,14 @@ class InstitutionController extends Controller
         }
 
         $validatedData = $request->validate([
-            'titulo' => 'required|string|max:255',
+            'nombre' => 'required|string|max:255',
             'descripcion' => 'nullable|string',
             'tipo' => 'required|in:publico,privado',
-            'capacidad' => 'required|integer|min:1',
+            'capacidad' => 'nullable|integer',
+            'imagen_perfil' => 'nullable|string',
         ]);
 
+        // Asignar el user_id del usuario autenticado
         $validatedData['user_id'] = $user->id;
 
         $institucion = Institucion::create($validatedData);

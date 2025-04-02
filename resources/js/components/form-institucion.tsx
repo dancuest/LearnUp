@@ -19,14 +19,10 @@ export default function FormInstitucion() {
         tipo: 'publico',
         capacidad: 0,
         descripcion: '',
-        imagen_perfil: 'imagen',
-        user_id: 1,
     });
 
     const Submit = async (e: React.FormEvent) => {
         console.log("Enviando información", { data });
-        await setData('imagen_perfil', 'imagen');
-        await setData('user_id', 1);
         e.preventDefault();
         post(route('institution.create'), {
             onSuccess: () => {
@@ -60,14 +56,6 @@ export default function FormInstitucion() {
                             placeholder="Nombre de la Institución"
                             value={data.nombre}
                             onChange={(e) => setData('nombre', e.target.value)}
-                        />
-                        <Input
-                            type="text"
-                            className="mt-1 block w-full border-blue-600"
-                            id="imagen_perfil"
-                            placeholder="Nombre de la Institución"
-                            value={data.imagen_perfil}
-                            onChange={(e) => setData('imagen_perfil', e.target.value)}
                         />
                     </div>
                     <div className="mb-4">
@@ -105,14 +93,6 @@ export default function FormInstitucion() {
                             className="mt-1 block w-full border-blue-600"
                             value={data.capacidad}
                             onChange={(e) => setData('capacidad', Number(e.target.value))}
-                        />
-                        <Input
-                            type="number"
-                            className="mt-1 block w-full border-blue-600"
-                            id="user_id"
-                            placeholder="Nombre de la Institución"
-                            value={data.user_id}
-                            onChange={(e) => setData('user_id', e.target.value)}
                         />
                     </div>
                     <div className="flex items-center justify-between">
