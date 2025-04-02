@@ -46,18 +46,15 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
 
             <SettingsLayout>
                 <div className="space-y-6">
-                    <HeadingSmall title="Profile information" description="Update your profile information" />
-                    <div className='flex items-center justify-center mb-4'>
-                        <img src="https://i.pinimg.com/736x/4d/84/11/4d84110ef26af739d6e0431c2310a419.jpg" alt="Perfil"
-                            className='rounded-full w-40 h-40 object-cover mb-4' />
-                    </div>
+                    <HeadingSmall title="Profile information" description="Update your name and email address" />
+
                     <form onSubmit={submit} className="space-y-6">
                         <div className="grid gap-2">
                             <Label htmlFor="name">Name</Label>
 
                             <Input
                                 id="name"
-                                className="mt-1 block w-full border-blue-600"
+                                className="mt-1 block w-full"
                                 value={data.name}
                                 onChange={(e) => setData('name', e.target.value)}
                                 required
@@ -74,7 +71,7 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
                             <Input
                                 id="email"
                                 type="email"
-                                className="mt-1 block border-blue-600 w-full"
+                                className="mt-1 block w-full"
                                 value={data.email}
                                 onChange={(e) => setData('email', e.target.value)}
                                 required
@@ -108,7 +105,7 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
                         )}
 
                         <div className="flex items-center gap-4">
-                            <Button disabled={processing} className='bg-blue-600'>Save</Button>
+                            <Button disabled={processing}>Save</Button>
 
                             <Transition
                                 show={recentlySuccessful}
