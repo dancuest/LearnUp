@@ -28,8 +28,8 @@ export default function SettingsLayout({ children }: PropsWithChildren) {
     const currentPath = window.location.pathname;
 
     return (
-        <div className="px-4 py-6 grid sm:flex">
-            <div>
+        <div className="pages px-4 py-6 overflow-y-visible grid md:flex">
+            <div className='Pages'>
                 <Heading title="Settings" description="Manage your profile and account settings" />
                 <aside className="w-full max-w-xl lg:w-48">
                     <nav className="space-y-1 space-x-1">
@@ -54,7 +54,7 @@ export default function SettingsLayout({ children }: PropsWithChildren) {
             </div>
 
             <div className="border-b-blue-500 rounded-2xl p-6 p-6s shadow-xl flex-1 md:max-w-2xl">
-                <section className="max-w-xl space-y-12">{children}</section>
+                <section className=" space-y-12">{children}</section>
             </div>
         </div>
     );
