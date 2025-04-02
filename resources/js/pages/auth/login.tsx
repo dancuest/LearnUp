@@ -46,7 +46,7 @@ export default function Login({ status, canResetPassword }: LoginProps) {
             },
             onError: (errors) => {
                 if (errors.email || errors.password) {
-                    showToast('Datos incorrectos. Inténtalo de nuevo.', 'error');
+                    showToast('Datos incorrectos, Inténtalo de nuevo.', 'error');
                 } else {
                     showToast('Ocurrió un error inesperado.', 'error');
                 }
