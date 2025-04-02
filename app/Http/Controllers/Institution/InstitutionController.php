@@ -43,7 +43,7 @@ class InstitutionController extends Controller
 
         $institucion = Institucion::create($validatedData);
 
-        return response()->json(['message' => 'Institucion created successfully', 'data' => $institucion], 201);
+        return \Inertia\Inertia::render('Institucion/Show', ['message' => 'Institucion created successfully', 'data' => $institucion]);
     }
     // Método para buscar por ID
     public function findById($id)
@@ -54,7 +54,7 @@ class InstitutionController extends Controller
             return response()->json(['message' => 'Institucion not found'], 404);
         }
 
-        return response()->json($institucion, 200);
+        return \Inertia\Inertia::render('Institucion/Detail', ['data' => $institucion]);
     }
 
     // Método para buscar todos con filtros y paginación
@@ -76,7 +76,7 @@ class InstitutionController extends Controller
 
         $instituciones = $query->get();
 
-        return response()->json($instituciones, 200);
+        return \Inertia\Inertia::render('Institucion/List', ['data' => $instituciones]);
     }
 
     // Método para eliminar una institución
@@ -94,7 +94,7 @@ class InstitutionController extends Controller
 
         $institucion->delete();
 
-        return response()->json(['message' => 'Institucion deleted successfully'], 200);
+        return \Inertia\Inertia::render('Institucion/Delete', ['message' => 'Institucion deleted successfully']);
     }
 
     // Método para actualizar una institución
@@ -112,6 +112,6 @@ class InstitutionController extends Controller
 
         $institucion->update($request->all());
 
-        return response()->json(['message' => 'Institucion updated successfully', 'data' => $institucion], 200);
+        return \Inertia\Inertia::render('Institucion/Update', ['message' => 'Institucion updated successfully', 'data' => $institucion]);
     }
 }
