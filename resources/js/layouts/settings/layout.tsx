@@ -37,7 +37,7 @@ export default function SettingsLayout({ children }: PropsWithChildren) {
             <div className='Pages'>
                 <Heading title="Settings" description="Manage your profile and account settings" />
                 <aside className="w-full max-w-xl lg:w-48">
-                    <nav className="space-y-1 space-x-1">
+                    <nav className="flex flex-col space-y-1 space-x-0">
                         {sidebarNavItems.map((item) => (
                             <Button
                                 key={item.url}
@@ -45,7 +45,7 @@ export default function SettingsLayout({ children }: PropsWithChildren) {
                                 variant="ghost"
                                 asChild
                                 className={cn('w-full justify-start', {
-                                    'bg-blue-400': currentPath === item.url,
+                                    'bg-muted': currentPath === item.url,
                                 })}
                             >
                                 <Link href={item.url} prefetch>
@@ -55,9 +55,8 @@ export default function SettingsLayout({ children }: PropsWithChildren) {
                         ))}
                     </nav>
                 </aside>
-                <Separator className="my-6 md:hidden" />
-            </div>
 
+                <Separator className="my-6 md:hidden" />
             <div className="border-b-blue-500 rounded-2xl p-6 p-6s shadow-xl flex-1 md:max-w-2xl">
                 <section className=" space-y-12">{children}</section>
             </div>
