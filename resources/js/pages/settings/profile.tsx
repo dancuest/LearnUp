@@ -57,6 +57,7 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
         name: auth.user.name,
         email: auth.user.email,
     });
+    console.log('auth', auth.user);
 
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
@@ -74,7 +75,7 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
                 <div className="space-y-6">
                     <HeadingSmall title="Profile information" description="Update your profile information" />
                     <div className='flex items-center justify-center mb-4'>
-                        <img src="https://i.pinimg.com/736x/4d/84/11/4d84110ef26af739d6e0431c2310a419.jpg" alt="Perfil"
+                        <img src={auth.user.imagen_perfil ? "https://s3.us-east-2.amazonaws.com/learnup.docs" + String(auth.user.imagen_perfil) : ""} alt="Perfil"
                             className='rounded-full w-40 h-40 object-cover mb-4' />
                     </div>
                     <form onSubmit={submit} className="space-y-6">

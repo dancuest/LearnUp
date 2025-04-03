@@ -58,6 +58,36 @@ const UploadImageButton: React.FC<UploadImageProps> = ({ table, rowId, column })
 
     return (
         <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem', maxWidth: '300px' }}>
+            {preview ? (
+                <img
+                    src={preview}
+                    alt="Previsualización"
+                    style={{
+                        width: '150px',
+                        height: '150px',
+                        objectFit: 'cover',
+                        borderRadius: '4px',
+                        border: '1px solid #ccc',
+                    }}
+                />
+            ) : (
+                <div
+                    style={{
+                        width: '50px',
+                        height: '50px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        backgroundColor: '#f3f3f3',
+                        borderRadius: '4px',
+                        border: '1px solid #ccc',
+                        fontSize: '0.875rem',
+                        color: '#666',
+                    }}
+                >
+                    Sin imagen
+                </div>
+            )}
             <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
                 <button
                     type="button"
@@ -70,91 +100,63 @@ const UploadImageButton: React.FC<UploadImageProps> = ({ table, rowId, column })
                         borderRadius: '4px',
                         fontSize: '1rem',
                         cursor: 'pointer',
+                        width: '120px',
+                        textAlign: 'center',
                     }}
                 >
                     Seleccionar Imagen
                 </button>
-                {preview ? (
-                    <img
-                        src={preview}
-                        alt="Previsualización"
-                        style={{
-                            width: '50px',
-                            height: '50px',
-                            objectFit: 'cover',
-                            borderRadius: '4px',
-                            border: '1px solid #ccc',
-                        }}
-                    />
-                ) : (
-                    <div
-                        style={{
-                            width: '50px',
-                            height: '50px',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            backgroundColor: '#f3f3f3',
-                            borderRadius: '4px',
-                            border: '1px solid #ccc',
-                            fontSize: '0.875rem',
-                            color: '#666',
-                        }}
-                    >
-                        Sin imagen
+                <input
+                    id="fileInput"
+                    type="file"
+                    onChange={handleFileChange}
+                    name="file"
+                    style={{ display: 'none' }}
+                />
+                {errors.file && <div style={{ color: 'red', fontSize: '0.875rem' }}>{errors.file}</div>}
+                <button
+                    type="submit"
+                    disabled={uploading}
+                    style={{
+                        padding: '0.75rem',
+                        backgroundColor: uploading ? '#ccc' : '#007bff',
+                        color: '#fff',
+                        border: 'none',
+                        borderRadius: '4px',
+                        fontSize: '1rem',
+                        cursor: uploading ? 'not-allowed' : 'pointer',
+                    }}
+                >
+                    {uploading ? 'Subiendo...' : 'Subir Imagen'}
+                </button>
+                {uploading && (
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                        <div
+                            style={{
+                                width: '100%',
+                                backgroundColor: '#f3f3f3',
+                                borderRadius: '4px',
+                                overflow: 'hidden',
+                                position: 'relative',
+                            }}
+                        >
+                            <div
+                                style={{
+                                    width: progress ? `${progress.percentage}%` : '100%',
+                                    backgroundColor: '#007bff',
+                                    height: '8px',
+                                    transition: 'width 0.3s ease',
+                                }}
+                            ></div>
+                        </div>
+                        {!progress && (
+                            <div style={{ fontSize: '0.875rem', color: '#666', animation: 'blink 1s infinite' }}>
+                                Cargando...
+                            </div>
+                        )}
                     </div>
                 )}
             </div>
-            <input
-                id="fileInput"
-                type="file"
-                onChange={handleFileChange}
-                name="file"
-                style={{ display: 'none' }}
-            />
-            {errors.file && <div style={{ color: 'red', fontSize: '0.875rem' }}>{errors.file}</div>}
-            <button
-                type="submit"
-                disabled={uploading}
-                style={{
-                    padding: '0.75rem',
-                    backgroundColor: uploading ? '#ccc' : '#007bff',
-                    color: '#fff',
-                    border: 'none',
-                    borderRadius: '4px',
-                    fontSize: '1rem',
-                    cursor: uploading ? 'not-allowed' : 'pointer',
-                }}
-            >
-                {uploading ? 'Subiendo...' : 'Subir Imagen'}
-            </button>
-            {uploading && (
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                    <div
-                        style={{
-                            width: '100%',
-                            backgroundColor: '#f3f3f3',
-                            borderRadius: '4px',
-                            overflow: 'hidden',
-                            position: 'relative',
-                        }}
-                    >
-                        <div
-                            style={{
-                                width: progress ? `${progress.percentage}%` : '100%',
-                                backgroundColor: '#007bff',
-                                height: '8px',
-                                transition: 'width 0.3s ease',
-                            }}
-                        ></div>
-                    </div>
-                    {!progress && (
-                        <div style={{ fontSize: '0.875rem', color: '#666', animation: 'blink 1s infinite' }}>
-                            Cargando...
-                        </div>
-                    )}
-                </div>
-            )}
         </form>
     );
 };

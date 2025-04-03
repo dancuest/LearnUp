@@ -22,6 +22,11 @@ const sidebarNavItems: NavItem[] = [
         url: '/settings/appearance',
         icon: null,
     },
+    {
+        title: 'Image Upload',
+        url: '/settings/image-upload',
+        icon: null,
+    }
 ];
 
 export default function SettingsLayout({ children }: PropsWithChildren) {
