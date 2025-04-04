@@ -54,9 +54,7 @@ export default function FormInstitucion() {
 
     return (
         <div className="border-b-blue-500 rounded-4xl p-6 shadow-xl dark:text-white">
-            <div className="shadow-md space-y-4 rounded-3xl px-8 pt-6 pb-8 mb-4 w-full max-w-md 
-            dark:bg-black
-            ">
+            <div className="shadow-md space-y-4 rounded-3xl px-8 pt-6 pb-8 mb-4 w-full max-w-md dark:bg-black">
                 <HeadingSmall title="Profile information" description="Update your profile information" />
                 <form className="space-y-4 dark:text-white" onSubmit={Submit}>
                     <div className="mb-4 ">
