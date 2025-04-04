@@ -33,8 +33,8 @@ export default function SettingsLayout({ children }: PropsWithChildren) {
     const currentPath = window.location.pathname;
 
     return (
-        <div className="pages px-4 py-6 overflow-y-visible grid md:flex">
-            <div className='Pages'>
+        <div className=" px-4 py-6 grid md:flex">
+            <div >
                 <Heading title="Settings" description="Manage your profile and account settings" />
                 <aside className="w-full max-w-xl lg:w-48">
                     <nav className="flex flex-col space-y-1 space-x-0">
