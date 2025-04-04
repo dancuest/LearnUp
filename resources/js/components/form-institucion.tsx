@@ -5,7 +5,8 @@ import { Input } from "./ui/input";
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
 import { Textarea } from "@headlessui/react";
-
+import Toastify from 'toastify-js';
+import 'toastify-js/src/toastify.css';
 
 interface FormInstitucionProps {
     [key: string]: string | number;
@@ -23,6 +24,18 @@ export default function FormInstitucion() {
         descripcion: '',
     });
 
+    const showToast = (message: string, isSuccess: boolean) => {
+        Toastify({
+            text: message,
+            duration: 3000,
+            close: true,
+            gravity: "top",
+            position: "right",
+            backgroundColor: isSuccess ? "#4CAF50" : "#F44336",
+            stopOnFocus: true,
+        }).showToast();
+    };
+
     const Submit = async (e: React.FormEvent) => {
         console.log("Enviando información", { data });
         e.preventDefault();
@@ -30,9 +43,11 @@ export default function FormInstitucion() {
             onSuccess: () => {
                 console.log("Información enviada exitosamente");
                 reset();
+                showToast("Institución creada correctamente", true);
             },
             onError: (e) => {
                 console.log("Error al enviar la información", { data, errors: e });
+                showToast("Error al crear la institución", false);
             },
         });
     };
@@ -69,7 +84,7 @@ export default function FormInstitucion() {
                     <div className="mb-4">
                         <Label htmlFor="tipo">Tipo</Label>
                         <Select
-                            value={data.tipo ? "publico" : "privado"}
+                            value={data.tipo}
                             onValueChange={(value) => setData('tipo', value as "publico" | "privado")}
                         >
                             <SelectTrigger className="mt-1 block w-full border-blue-600 rounded px-4 py-2">

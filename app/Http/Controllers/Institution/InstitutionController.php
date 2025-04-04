@@ -4,26 +4,10 @@ namespace App\Http\Controllers\Institution;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Institucion; // Asegúrate de tener un modelo llamado Institucion
+use App\Models\Institucion;
 
 class InstitutionController extends Controller
 {
-
-    /**
-     * Create a new Institucion.
-     *
-     * This method validates the incoming request data, creates a new Institucion
-     * record in the database, and returns a JSON response with the created data.
-     *
-     * @param \Illuminate\Http\Request $request The incoming HTTP request containing
-     *                                          the data for the new Institucion.
-     *
-     * @return \Illuminate\Http\JsonResponse A JSON response containing a success message
-     *                                        and the created Institucion data.
-     *
-     * @throws \Illuminate\Validation\ValidationException If the validation of the request
-     *                                                    data fails.
-     */
     public function create(Request $request)
     {
         $user = $request->user();
@@ -40,80 +24,94 @@ class InstitutionController extends Controller
             'imagen_perfil' => 'nullable|string',
         ]);
 
-        // Asignar el user_id del usuario autenticado
         $validatedData['user_id'] = $user->id;
-
         $institucion = Institucion::create($validatedData);
 
-        return response()->json(['message' => 'Institucion created successfully', 'data' => $institucion], 201);
+        return back()->with([
+            'flash' => [
+                'type' => 'success',
+                'message' => 'Institución creada exitosamente',
+                'data' => $institucion // <<-- Todo el objeto aquí
+            ]
+        ]);
     }
-    // Método para buscar por ID
+
     public function findById($id)
     {
-        $institucion = Institucion::find($id);
-
-        if (!$institucion) {
-            return response()->json(['message' => 'Institucion not found'], 404);
-        }
-
-        return response()->json($institucion, 200);
+        return back()->with([
+            'flash' => [
+                'data' => Institucion::findOrFail($id) // <<-- Datos aquí
+            ]
+        ]);
     }
 
-    // Método para buscar todos con filtros y paginación
     public function findAll(Request $request)
     {
         $query = Institucion::query();
 
-        // Filtrar por título si se proporciona
         if ($request->has('titulo')) {
             $query->where('titulo', 'like', '%' . $request->input('titulo') . '%');
         }
 
-        // Aplicar paginación si se proporcionan limit y offset
         if ($request->has('limit')) {
-            $limit = (int) $request->input('limit');
-            $offset = (int) $request->input('offset', 0);
-            $query->skip($offset)->take($limit);
+            $query->skip($request->input('offset', 0))
+                ->take($request->input('limit'));
         }
 
-        $instituciones = $query->get();
-
-        return response()->json($instituciones, 200);
+        return back()->with([
+            'flash' => [
+                'data' => $query->get() // <<-- Lista completa aquí
+            ]
+        ]);
     }
 
-    // Método para eliminar una institución
     public function delete(Request $request, $id)
     {
-        $institucion = Institucion::find($id);
-
-        if (!$institucion) {
-            return response()->json(['message' => 'Institucion not found'], 404);
-        }
+        $institucion = Institucion::findOrFail($id);
 
         if ($request->user()->id !== $institucion->user_id) {
-            return response()->json(['message' => 'Unauthorized'], 403);
+            return back()->with([
+                'flash' => [
+                    'type' => 'error',
+                    'message' => 'No autorizado',
+                    'data' => null // <<-- Data explícita null
+                ]
+            ])->setStatusCode(403);
         }
 
         $institucion->delete();
 
-        return response()->json(['message' => 'Institucion deleted successfully'], 200);
+        return back()->with([
+            'flash' => [
+                'type' => 'success',
+                'message' => 'Institución eliminada',
+                'data' => ['deleted_id' => $id] // <<-- Datos adicionales
+            ]
+        ]);
     }
 
-    // Método para actualizar una institución
     public function update(Request $request, $id)
     {
-        $institucion = Institucion::find($id);
-
-        if (!$institucion) {
-            return response()->json(['message' => 'Institucion not found'], 404);
-        }
+        $institucion = Institucion::findOrFail($id);
 
         if ($request->user()->id !== $institucion->user_id) {
-            return response()->json(['message' => 'Unauthorized'], 403);
+            return back()->with([
+                'flash' => [
+                    'type' => 'error',
+                    'message' => 'No autorizado',
+                    'data' => null
+                ]
+            ])->setStatusCode(403);
         }
 
         $institucion->update($request->all());
 
-        return response()->json(['message' => 'Institucion updated successfully', 'data' => $institucion], 200);
+        return back()->with([
+            'flash' => [
+                'type' => 'success',
+                'message' => 'Institución actualizada',
+                'data' => $institucion // <<-- Datos actualizados
+            ]
+        ]);
     }
 }
