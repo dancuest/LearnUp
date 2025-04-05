@@ -6,23 +6,55 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Institucion; // Asegúrate de tener un modelo llamado Institucion
 
+/**
+ * OA\Info
+ * (
+ *      title = "Api LearnUp Documentation",
+ *      version = "1.0.0",
+ *      description = "LearnUp project Documentation",
+ *  )
+ */
+
 class InstitutionController extends Controller
 {
 
     /**
-     * Create a new Institucion.
-     *
-     * This method validates the incoming request data, creates a new Institucion
-     * record in the database, and returns a JSON response with the created data.
-     *
-     * @param \Illuminate\Http\Request $request The incoming HTTP request containing
-     *                                          the data for the new Institucion.
-     *
-     * @return \Illuminate\Http\JsonResponse A JSON response containing a success message
-     *                                        and the created Institucion data.
-     *
-     * @throws \Illuminate\Validation\ValidationException If the validation of the request
-     *                                                    data fails.
+     * Crear una institución 
+     * 
+     * @OA\Post
+     *  (
+     *     path = "/institution/create",
+     *     operationId = "create Institution",
+     *     tags = {"institucion"},
+     *     summary = "Create a new institutions.",
+     *     description = "this endpoint allows to register a new institution in the database",
+     *     
+     *      @OA\RequestBody(
+     *          required=true,
+     *          description = "Institution data.",
+     *          @OA\JsonContent(
+     *              required={"nombre", "tipo", "capacidad"},
+     *              @OA\Property(property="id", type="integer", example=1),
+     *              @OA\Property(property="nombre", type="string", example="Univalle"),
+     *              @OA\Property(property="tipo", type="string", example="publica"),
+     *              @OA\Property(property="Capacidad", type="integer", example=1500),
+     *          )
+     *      ),
+     *      @OA\Response (
+     *          response = 201,
+     *          description = "Institution created successfully",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="id", type="integer", example=1),
+     *              @OA\Property(property="nombre", type="string", example="Univalle"),
+     *              @OA\Property(property="tipo", type="string", example="publica"),
+     *              @OA\Property(property="Capacidad", type="integer", example=1500),
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="request failed"
+     *      )
+     *  )
      */
     public function create(Request $request)
     {
@@ -45,7 +77,41 @@ class InstitutionController extends Controller
 
         return response()->json(['message' => 'Institucion created successfully', 'data' => $institucion], 201);
     }
-    // Método para buscar por ID
+
+
+    /**
+     * Obtener institucion por el id 
+     * 
+     * @OA\Get (
+     *      path="/institution/{id}",
+     *      operationId = "get Institution By Id",
+     *      tags = {"institucion"},
+     *      summary = "Get an Institution by Id",
+     *      @OA\Parameter(
+     *          name = "id",
+     *          in = "path",
+     *          description = "ID of institution",
+     *          required = true,
+     *          @OA\Schema(type = "integer", example = 1)
+     *      ),
+     *      @OA\Response(
+     *          response = 200,
+     *          description = "Institution data",
+     *          @OA\JsonContent (
+     *              type = "object",
+     *              @OA\Property(property="id", type="integer", example=1),
+     *              @OA\Property(property="nombre", type="string", example="Univalle"),
+     *              @OA\Property(property="tipo", type="string", example="publica"),                 
+     *              @OA\Property(property="Capacidad", type="integer", example=1500)
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response = 404,
+     *          description = "Institution not found"
+     *      )
+     * )
+     */
+    
     public function findById($id)
     {
         $institucion = Institucion::find($id);
@@ -57,7 +123,32 @@ class InstitutionController extends Controller
         return response()->json($institucion, 200);
     }
 
-    // Método para buscar todos con filtros y paginación
+
+    /**
+     * Busqueda por filtros y paginación 
+     * 
+     * @OA\Get (
+     *      path = "/institution/",
+     *      operationId = "get Institutions",
+     *      tags = {"institucion"},
+     *      summary = "Get an institutions",
+     *      @OA\ Response (
+     *          response = 200,
+     *          description = "List of institutions",
+     *          @OA\JsonContent (
+     *              type = "object",
+     *              @OA\Property(property="id", type="integer", example=1),
+     *              @OA\Property(property="nombre", type="string", example="Univalle"),
+     *              @OA\Property(property="tipo", type="string", example="publica"),                 
+     *              @OA\Property(property="Capacidad", type="integer", example=1500)
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response = 404,
+     *          description = "There are not institutions"
+     *      )
+     * )
+     */
     public function findAll(Request $request)
     {
         $query = Institucion::query();
@@ -79,7 +170,40 @@ class InstitutionController extends Controller
         return response()->json($instituciones, 200);
     }
 
-    // Método para eliminar una institución
+    /**
+     * Método para eliminar una institución
+     * 
+     * @OA\Delete (
+     *      path = "/institution/delete",
+     *      operationId = "delete an institution",
+     *      tags = {"institucion"},
+     *      summary = "Delete an Institution By Id",
+     *      @OA\Parameter(
+     *          name = "id",
+     *          in = "path",
+     *          description = "Id of institution",
+     *          required = true,
+     *          @OA\Schema(type = "integer", example = 1)
+     *      ),
+     *      @OA\Response(
+     *          response = 200,
+     *          description = "Institution deleted",
+     *          @OA\JsonContent(
+     *              type = "object",
+     *              @OA\Property(property="id", type="integer", example=1),
+     *              @OA\Property(property="nombre", type="string", example="Univalle"),
+     *              @OA\Property(property="tipo", type="string", example="publica"),                 
+     *              @OA\Property(property="Capacidad", type="integer", example=1500)
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response = 404,
+     *          description = "Institution not deleted"
+     *      )
+     * )
+     *  
+     * */ 
+    
     public function delete(Request $request, $id)
     {
         $institucion = Institucion::find($id);
@@ -97,7 +221,39 @@ class InstitutionController extends Controller
         return response()->json(['message' => 'Institucion deleted successfully'], 200);
     }
 
-    // Método para actualizar una institución
+    /**
+     * Método para actualizar una institución
+     * @OA\PUT (
+     *      path = "/institution/update",
+     *      operationId = "update institution",
+     *      tags = {"institucion"},
+     *      summary = "Update an institution",
+     *      @OA\RequestBody(
+     *          description = "Institution data",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="id", type="integer", example=1),
+     *              @OA\Property(property="nombre", type="string", example="Univalle"),
+     *              @OA\Property(property="tipo", type="string", example="publica"),
+     *              @OA\Property(property="Capacidad", type="integer", example=1500),
+     *          )
+     *      ),
+     *      @OA\Response (
+     *          response = 201,
+     *          description = "Institution updated successfully",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="id", type="integer", example=1),
+     *              @OA\Property(property="nombre", type="string", example="Univalle"),
+     *              @OA\Property(property="tipo", type="string", example="publica"),
+     *              @OA\Property(property="Capacidad", type="integer", example=1500),
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="request failed"
+     *      )
+     * )
+     * 
+     *  */ 
     public function update(Request $request, $id)
     {
         $institucion = Institucion::find($id);
