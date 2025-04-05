@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Institution;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Inertia\Inertia;
 
 class InstitutionUsersController extends Controller
 {
@@ -24,7 +25,7 @@ class InstitutionUsersController extends Controller
             ->exists();
 
         if ($request->user_id !== $request->user()->id && !$isOwner) {
-            return response()->json(['message' => 'No tienes permiso para realizar esta acción.'], 403);
+            return Inertia::render('Error', ['message' => 'No tienes permiso para realizar esta acción.']);
         }
 
         DB::table('accede_institucion_user')->insert([
@@ -33,8 +34,7 @@ class InstitutionUsersController extends Controller
             'created_at' => now(),
             'updated_at' => now(),
         ]);
-
-        return response()->json(['message' => 'Usuario agregado a la institución exitosamente.']);
+        return Inertia::render('Success', ['message' => 'Usuario agregado a la institución exitosamente.']);
     }
 
     /**
@@ -54,14 +54,13 @@ class InstitutionUsersController extends Controller
 
 
         if ($request->user_id !== $request->user()->id && !$isOwner) {
-            return response()->json(['message' => 'No tienes permiso para realizar esta acción.'], 403);
+            return Inertia::render('Error', ['message' => 'No tienes permiso para realizar esta acción.']);
         }
 
         DB::table('accede_institucion_user')
             ->where('user_id', $request->user_id)
             ->where('institucion_id', $request->institucion_id)
             ->delete();
-
-        return response()->json(['message' => 'Usuario eliminado de la institución exitosamente.']);
+        return Inertia::render('Success', ['message' => 'Usuario eliminado de la institución exitosamente.']);
     }
 }

@@ -2,7 +2,7 @@ import InstitutionTarget from "@/components/InstitutionTarget";
 import Carrusel from "@/components/carrusel";
 import Navbar from "@/components/navbar";
 import UploadImageButton from "@/components/Buttons/upload-image-button";
-import { Upload } from "lucide-react";
+import FormInstitucion from "@/components/form-institucion";
 
 export default function StyleGuide() {
     const propsNavbar = {
@@ -18,7 +18,7 @@ export default function StyleGuide() {
     return (
         <>
             <Navbar props={propsNavbar} />
-            <div className="pages bg-white text-[#1b1b18] dark:bg-[#0a0a0a] overflow-y-auto">
+            <div className="pages text-[#1b1b18]">
 
                 <div className="pt-20 p-6 lg:p-8">
                     <h1 className="text-3xl font-bold">Style Guide</h1>
@@ -26,8 +26,8 @@ export default function StyleGuide() {
                     {/* Sección de colores */}
                     <h2 className="text-2xl font-semibold mt-8">Colors</h2>
                     <ul className="mt-4 space-y-2">
-                        <li className="w-min px-4 py-2 bg-[#FF5733] text-white rounded-md shadow">#FF5733</li>
-                        <li className="w-min px-4 py-2 bg-[#33FF57] text-black rounded-md shadow">#33FF57</li>
+                        <li className="w-min px-4 py-2 bg-[#d4e5f7] text-white rounded-md shadow">#d4e5f7</li>
+                        <li className="w-min px-4 py-2 bg-[#7eb2e7] text-black rounded-md shadow">#7eb2e7</li>
                         <li className="w-min px-4 py-2 bg-[#3357FF] text-white rounded-md shadow">#3357FF</li>
                     </ul>
                     <Carrusel className="w-full max-w-[1000px] h-[300px]"
@@ -49,6 +49,7 @@ export default function StyleGuide() {
                 <UploadImageButton table="users" rowId={1} column="imagen_perfil" />
                 <h2> Componente Target</h2>
                 <InstitutionTarget props={propsTargetInstitucion} />
+                <FormInstitucion />
             </div>
         </>
     )

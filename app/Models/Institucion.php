@@ -19,8 +19,9 @@ class Institucion extends Model
         'nombre',
         'tipo',
         'capacidad',
-        'imagen_perfil',
+        'imagen_perfil', // This field can remain in fillable but is nullable
         'descripcion',
+        'user_id',
     ];
 
     /**

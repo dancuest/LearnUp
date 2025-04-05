@@ -24,6 +24,32 @@ interface ProfileForm {
     email: string;
 }
 
+/**
+ * Componente `Profile` que permite a los usuarios actualizar su información de perfil.
+ *
+ * @param {Object} props - Propiedades del componente.
+ * @param {boolean} props.mustVerifyEmail - Indica si el usuario debe verificar su correo electrónico.
+ * @param {string} [props.status] - Estado opcional que indica si se ha enviado un enlace de verificación.
+ *
+ * @returns {JSX.Element} - Componente de configuración del perfil del usuario.
+ *
+ * @remarks
+ * Este componente utiliza `useForm` para manejar el estado del formulario y las validaciones.
+ * También incluye un formulario para actualizar el nombre y el correo electrónico del usuario,
+ * y muestra un mensaje si el correo electrónico no está verificado.
+ *
+ * @example
+ * ```tsx
+ * <Profile mustVerifyEmail={true} status="verification-link-sent" />
+ * ```
+ *
+ * @dependencies
+ * - `usePage`: Hook para acceder a los datos compartidos de la página.
+ * - `useForm`: Hook para manejar formularios con validaciones y envío de datos.
+ * - `AppLayout`: Componente de diseño principal.
+ * - `SettingsLayout`: Componente de diseño para la sección de configuración.
+ * - `HeadingSmall`, `Label`, `Input`, `InputError`, `Button`, `Transition`, `DeleteUser`: Componentes reutilizables.
+ */
 export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: boolean; status?: string }) {
     const { auth } = usePage<SharedData>().props;
 
@@ -31,6 +57,7 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
         name: auth.user.name,
         email: auth.user.email,
     });
+    console.log('auth', auth.user);
 
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
@@ -48,7 +75,7 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
                 <div className="space-y-6">
                     <HeadingSmall title="Profile information" description="Update your profile information" />
                     <div className='flex items-center justify-center mb-4'>
-                        <img src="https://i.pinimg.com/736x/4d/84/11/4d84110ef26af739d6e0431c2310a419.jpg" alt="Perfil"
+                        <img src={auth.user.imagen_perfil ? "https://s3.us-east-2.amazonaws.com/learnup.docs" + String(auth.user.imagen_perfil) : ""} alt="Perfil"
                             className='rounded-full w-40 h-40 object-cover mb-4' />
                     </div>
                     <form onSubmit={submit} className="space-y-6">
@@ -57,7 +84,7 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
 
                             <Input
                                 id="name"
-                                className="mt-1 block w-full border-blue-600"
+                                className="mt-1 border-blue-600 block w-full"
                                 value={data.name}
                                 onChange={(e) => setData('name', e.target.value)}
                                 required
@@ -74,7 +101,7 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
                             <Input
                                 id="email"
                                 type="email"
-                                className="mt-1 block border-blue-600 w-full"
+                                className="mt-1 border-blue-600 block w-full"
                                 value={data.email}
                                 onChange={(e) => setData('email', e.target.value)}
                                 required
@@ -122,8 +149,8 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
                         </div>
                     </form>
                 </div>
-
                 <DeleteUser />
+
             </SettingsLayout>
         </AppLayout>
     );
