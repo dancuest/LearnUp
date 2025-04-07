@@ -1,0 +1,317 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "API de LearnUp",
+        "description": "Documentación de la API de LearnUp",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/institution/create": {
+            "post": {
+                "tags": [
+                    "institucion"
+                ],
+                "summary": "Create a new institutions.",
+                "description": "this endpoint allows to register a new institution in the database",
+                "operationId": "create Institution",
+                "requestBody": {
+                    "description": "Institution data.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "nombre",
+                                    "tipo",
+                                    "capacidad"
+                                ],
+                                "properties": {
+                                    "id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "nombre": {
+                                        "type": "string",
+                                        "example": "Univalle"
+                                    },
+                                    "tipo": {
+                                        "type": "string",
+                                        "example": "publica"
+                                    },
+                                    "Capacidad": {
+                                        "type": "integer",
+                                        "example": 1500
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Institution created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "nombre": {
+                                            "type": "string",
+                                            "example": "Univalle"
+                                        },
+                                        "tipo": {
+                                            "type": "string",
+                                            "example": "publica"
+                                        },
+                                        "Capacidad": {
+                                            "type": "integer",
+                                            "example": 1500
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "request failed"
+                    }
+                }
+            }
+        },
+        "/institution/{id}": {
+            "get": {
+                "tags": [
+                    "institucion"
+                ],
+                "summary": "Get an Institution by Id",
+                "description": "Obtener institucion por el id",
+                "operationId": "get Institution By Id",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of institution",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Institution data",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "nombre": {
+                                            "type": "string",
+                                            "example": "Univalle"
+                                        },
+                                        "tipo": {
+                                            "type": "string",
+                                            "example": "publica"
+                                        },
+                                        "Capacidad": {
+                                            "type": "integer",
+                                            "example": 1500
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Institution not found"
+                    }
+                }
+            }
+        },
+        "/institution/": {
+            "get": {
+                "tags": [
+                    "institucion"
+                ],
+                "summary": "Get an institutions",
+                "description": "Busqueda por filtros y paginación",
+                "operationId": "get Institutions",
+                "responses": {
+                    "200": {
+                        "description": "List of institutions",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "nombre": {
+                                            "type": "string",
+                                            "example": "Univalle"
+                                        },
+                                        "tipo": {
+                                            "type": "string",
+                                            "example": "publica"
+                                        },
+                                        "Capacidad": {
+                                            "type": "integer",
+                                            "example": 1500
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "There are not institutions"
+                    }
+                }
+            }
+        },
+        "/institution/delete": {
+            "delete": {
+                "tags": [
+                    "institucion"
+                ],
+                "summary": "Delete an Institution By Id",
+                "description": "Método para eliminar una institución",
+                "operationId": "delete an institution",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id of institution",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Institution deleted",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "nombre": {
+                                            "type": "string",
+                                            "example": "Univalle"
+                                        },
+                                        "tipo": {
+                                            "type": "string",
+                                            "example": "publica"
+                                        },
+                                        "Capacidad": {
+                                            "type": "integer",
+                                            "example": 1500
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Institution not deleted"
+                    }
+                }
+            }
+        },
+        "/institution/update": {
+            "put": {
+                "tags": [
+                    "institucion"
+                ],
+                "summary": "Update an institution",
+                "description": "Método para actualizar una institución",
+                "operationId": "update institution",
+                "requestBody": {
+                    "description": "Institution data",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "nombre": {
+                                        "type": "string",
+                                        "example": "Univalle"
+                                    },
+                                    "tipo": {
+                                        "type": "string",
+                                        "example": "publica"
+                                    },
+                                    "Capacidad": {
+                                        "type": "integer",
+                                        "example": 1500
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Institution updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "nombre": {
+                                            "type": "string",
+                                            "example": "Univalle"
+                                        },
+                                        "tipo": {
+                                            "type": "string",
+                                            "example": "publica"
+                                        },
+                                        "Capacidad": {
+                                            "type": "integer",
+                                            "example": 1500
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "request failed"
+                    }
+                }
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "institucion",
+            "description": "institucion"
+        }
+    ]
+}

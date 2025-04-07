@@ -4,20 +4,23 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Opcion extends Model
 {
     use HasFactory;
-    
     protected $fillable = [
         'cantidad'
     ];
 
-    public function pregunta(): BelongsTo {
+    public function pregunta(): BelongsTo
+    {
         return $this->belongsTo(Pregunta::class);
     }
 
-    public function respuesta(): HasMany {
+    public function respuesta(): HasMany
+    {
         return $this->hasMany(Respuesta::class);
     }
 }

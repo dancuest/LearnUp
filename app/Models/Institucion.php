@@ -3,46 +3,81 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-
+use InstitucionPlan;
+use Plan;
 
 class Institucion extends Model
 {
-    use HasFactory;
-
     protected $fillable = [
         'nombre',
+        'descripcion',
         'tipo',
         'capacidad',
+        'capacidad_limite',
         'imagen_perfil',
-        'descripcion',
+        'user_id'
     ];
 
-    /**
-     * An institution belongs to a user
-     */
-    public function userCreaInstitucion(): BelongsTo {
-        return $this -> belongsTo(User::class);
+    protected $casts = [
+        'capacidad_limite' => 'boolean'
+    ];
+
+    /* Relaciones */
+    public function creador()
+    {
+        return $this->belongsTo(User::class, 'user_id');
     }
 
-    /**
-     * Many users can to access to the institution
-     */
-    public function userAccedeInstitucion(): BelongsToMany {
-        return $this -> belongsToMany(User::class);
+    public function miembros()
+    {
+        return $this->belongsToMany(User::class, 'accede_institucion_user')
+            ->withPivot(['rol', 'estado', 'estado_pago', 'fecha_pago']);
     }
 
-    /**
-     * 
-     */
-    public function pago(): HasOne {
-        return $this -> hasOne(Pago::class);
+    public function cursos()
+    {
+        return $this->hasMany(Curso::class);
     }
 
-    /**
-     * An institution has many courses 
-     */
-    public function cursos(): HasMany {
-        return $this -> hasMany(Curso::class);
+    public function planes()
+    {
+        return $this->belongsToMany(Plan::class, 'institucion_plan')
+            ->using(InstitucionPlan::class)
+            ->withPivot(['fecha_inicio', 'fecha_fin', 'estado', 'renovacion_automatica']);
+    }
+
+    public function planActual()
+    {
+        return $this->planes()
+            ->wherePivot('estado', 'activo')
+            ->orderByPivot('fecha_fin', 'desc')
+            ->first();
+    }
+
+    public function pagos()
+    {
+        return $this->hasMany(Pago::class);
+    }
+
+    /* Métodos útiles */
+    public function esPublica()
+    {
+        return $this->tipo === 'publico';
+    }
+
+    public function capacidadDisponible()
+    {
+        if (!$this->capacidad_limite) {
+            return PHP_INT_MAX;
+        }
+
+        return $this->capacidad - $this->miembros()->count();
+    }
+
+    public function docentes()
+    {
+        return $this->belongsToMany(User::class, 'accede_institucion_user')
+            ->wherePivot('rol', 'docente')
+            ->withPivot(['estado', 'estado_pago', 'fecha_pago']);
     }
 }
