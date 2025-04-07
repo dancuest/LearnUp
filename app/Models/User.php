@@ -2,134 +2,80 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
-
-use Illuminate\Contracts\Auth\MustVerifyEmail as AuthMustVerifyEmail;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use EventoCalendario;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-class User extends Authenticatable implements AuthMustVerifyEmail
+class User extends Authenticatable
 {
-    /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable;
+    use Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var list<string>
-     */
     protected $fillable = [
         'name',
         'email',
         'password',
         'fecha_nacimiento',
         'sexo',
-        'imagen_perfil',
+        'imagen_perfil'
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var list<string>
-     */
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
-    protected function casts(): array
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+        'fecha_nacimiento' => 'date'
+    ];
+
+    /* Relaciones */
+    public function institucionesCreadas()
     {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-        ];
+        return $this->hasMany(Institucion::class, 'user_id');
     }
 
-    /**
-     * An User can to create many institutions
-     */
-    public function creaInstitucion(): HasMany
+    public function instituciones()
     {
-        return $this->hasMany(Institucion::class);
+        return $this->belongsToMany(Institucion::class, 'accede_institucion_user')
+            ->withPivot(['rol', 'estado', 'estado_pago', 'fecha_pago']);
     }
 
-    /**
-     * An user can to access to many institutions
-     */
-    public function accedeInstitucion(): BelongsToMany
+    public function cursosComoDocente()
     {
-        return $this->belongsToMany(Institucion::class);
+        return $this->hasMany(Curso::class, 'docente_id');
     }
 
-    /**
-     * An User can to teach in many courses
-     */
-    public function ensenaCurso(): BelongsToMany
+    public function cursosInscritos()
     {
-        return $this->belongsToMany(Curso::class);
+        return $this->belongsToMany(Curso::class, 'estudia_curso_user');
     }
 
-    /**
-     * An user can to study in many courses
-     */
-    public function estudiaCurso(): BelongsToMany
+    public function entregablesAsignados()
     {
-        return $this->belongsToMany(Curso::class);
+        return $this->hasMany(Entregable::class, 'user_id');
     }
 
-    /**
-     * An ser can to do many pays
-     */
-    public function pago(): HasMany
+    public function formulariosAsignados()
+    {
+        return $this->hasMany(Formulario::class, 'user_id');
+    }
+
+    public function eventosCreados()
+    {
+        return $this->hasMany(EventoCalendario::class, 'creado_por');
+    }
+
+    public function pagos()
     {
         return $this->hasMany(Pago::class);
     }
 
-    /**
-     * An user can to create many activities
-     */
-    public function creaEntregable(): HasMany
+    /* Scopes útiles */
+    public function scopeDocentes($query)
     {
-        return $this->hasMany(Entregable::class);
-    }
-
-    /**
-     * An user can to create many forms
-     */
-    public function creaForm(): HasMany
-    {
-        return $this->hasMany(Formulario::class);
-    }
-
-    /**
-     * An user qualify many activities
-     */
-    public function califica(): HasMany
-    {
-        return $this->hasMany(Entrega::class);
-    }
-
-    /**
-     * An user send many activities
-     */
-    public function envia(): HasMany
-    {
-        return $this->hasMany(Entrega::class);
-    }
-
-    /**
-     * An user perform many attemps (intentos)
-     */
-    public function realizaintento(): HasMany
-    {
-        return $this->hasMany(Intento::class);
+        return $query->whereHas('instituciones', function ($q) {
+            $q->where('rol', 'docente');
+        });
     }
 }

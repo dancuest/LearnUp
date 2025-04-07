@@ -2,58 +2,63 @@
 
 namespace App\Models;
 
+use EventoCalendario;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Curso extends Model
 {
-    use HasFactory;
-
     protected $fillable = [
-        'nombre', 
+        'nombre',
+        'descripcion',
         'costo',
         'cantidad_alumnos',
+        'institucion_id'
     ];
 
-    /**
-     * Many users can to belongs to the course
-     */
-    public function userEstudia(): BelongsToMany {
-        return $this -> belongsToMany(User::class);
+    /* Relaciones */
+    public function institucion()
+    {
+        return $this->belongsTo(Institucion::class);
     }
 
-    /**
-     * Many users can to teach a course
-     */
-    public function userEnsena(): BelongsTo {
-        return $this -> belongsToMany(User::class);
+    public function docente()
+    {
+        return $this->belongsTo(User::class, 'docente_id');
     }
 
-    /**
-     * Courses belongs to a institution
-     */
-    public function cursosInstitucion(): BelongsTo {
-        return $this -> belongsTo(Institucion::class);
+    public function estudiantes()
+    {
+        return $this->belongsToMany(User::class, 'estudia_curso_user');
     }
 
-    /**
-     * An course has many activities
-     */
-    public function entregables(): HasMany {
-        return $this -> hasMany(Entregable::class);
+    public function entregables()
+    {
+        return $this->hasMany(Entregable::class);
     }
 
-    /**
-     * An course has many forms
-     */
-    public function forms(): HasMany {
-        return $this -> hasMany(Formulario::class);
+    public function formularios()
+    {
+        return $this->hasMany(Formulario::class);
     }
 
-    /**
-     * Course has an asset
-     */
-    public function asset(): HasOne {
-        return $this -> hasOne(Asset::class);
+    public function eventos()
+    {
+        return $this->hasMany(EventoCalendario::class);
+    }
+
+    public function assets()
+    {
+        return $this->hasMany(Asset::class);
+    }
+
+    /* Métodos útiles */
+    public function tieneCupoDisponible()
+    {
+        return $this->estudiantes()->count() < $this->cantidad_alumnos;
+    }
+
+    public function costoFormateado()
+    {
+        return '$' . number_format($this->costo, 2);
     }
 }

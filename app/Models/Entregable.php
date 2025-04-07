@@ -2,9 +2,12 @@
 
 namespace App\Models;
 
+use EventoCalendario;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Entregable extends Model
 {
@@ -18,21 +21,29 @@ class Entregable extends Model
     /**
      * An activity belongs to an user
      */
-    public function userCreaEntregable(): belongsTo {
-        return $this -> belongsTo(User::class);
+    public function userCreaEntregable(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 
     /**
      * an activity belongs to a course
      */
-    public function cursos(): BelongsTo {
-        return $this -> belongsTo(Curso::class);
+    public function cursos(): BelongsTo
+    {
+        return $this->belongsTo(Curso::class);
     }
 
     /**
      * An activity has many activities delivered
      */
-    public function entrega(): HasMany {
-        return $this -> hasMany(Entrega::class);
+    public function entrega(): HasMany
+    {
+        return $this->hasMany(Entrega::class);
+    }
+
+    public function evento(): HasOne
+    {
+        return $this->hasOne(EventoCalendario::class);
     }
 }
