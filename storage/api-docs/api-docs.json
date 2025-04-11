@@ -6,6 +6,85 @@
         "version": "1.0.0"
     },
     "paths": {
+        "/institution/{institution}/course": {
+            "post": {
+                "tags": [
+                    "curso"
+                ],
+                "summary": "Create new courses",
+                "description": "this endpoint allows to create a new course",
+                "operationId": "create course",
+                "requestBody": {
+                    "description": "course data",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "nombre",
+                                    "costo",
+                                    "cantidad_alumnos"
+                                ],
+                                "properties": {
+                                    "id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "nombre": {
+                                        "type": "string",
+                                        "example": "Calculo I"
+                                    },
+                                    "costo": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 0
+                                    },
+                                    "cantidad_alumnos": {
+                                        "type": "integer",
+                                        "example": 50
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Course created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "nombre": {
+                                            "type": "string",
+                                            "example": "Calculo I"
+                                        },
+                                        "costo": {
+                                            "type": "number",
+                                            "format": "float",
+                                            "example": 0
+                                        },
+                                        "cantidad_alumnos": {
+                                            "type": "integer",
+                                            "example": 50
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "request failed"
+                    }
+                }
+            }
+        },
         "/institution/create": {
             "post": {
                 "tags": [
@@ -309,6 +388,10 @@
         }
     },
     "tags": [
+        {
+            "name": "curso",
+            "description": "curso"
+        },
         {
             "name": "institucion",
             "description": "institucion"

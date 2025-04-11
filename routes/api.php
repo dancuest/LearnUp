@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\Institution\InstitutionController;
+use App\Http\Controllers\Curso\CursoController;
 use App\Http\Controllers\Institution\InstitutionUsersController;
 
 Route::middleware('auth')->group(function () {
@@ -24,5 +25,11 @@ Route::prefix('institution')->group(function () {
             Route::post('add', [InstitutionUsersController::class, 'addUserToInstitution'])->name('institution.addUser');
             Route::delete('remove', [InstitutionUsersController::class, 'removeUserFromInstitution'])->name('institution.removeUser');
         });
+    });
+});
+
+Route::prefix('institution')->group(function () {
+    Route::middleware(['auth', 'verified'])->group(function () {
+        Route::post('{institution}/course', [CursoController::class, 'createCurso'])->name('curso.createCurso');
     });
 });
