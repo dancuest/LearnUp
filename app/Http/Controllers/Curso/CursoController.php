@@ -75,4 +75,92 @@ class CursoController extends Controller
             ]
         ]);
     }
+
+    /**
+     * Busqueda por filtros y paginación 
+     * 
+     * @OA\GET (
+     *      path = "/institution/courses/",
+     *      operationId = "get all courses from a Institution",
+     *      tags = {"curso"},
+     *      summary = "Get all courses from a Institution",
+     *      @OA\ Response (
+     *          response = 200,
+     *          description = "List of courses",
+     *          @OA\JsonContent (
+     *              type = "Object"
+     *              @OA\Property(property= "id", type= "integer", example=1),
+     *              @OA\Property(property = "nombre", type="string", example= "Desarrollo de software"),
+     *              @OA\Property(property = "costo", type="float", example= "356000"),
+     *              @OA\Property(property = "cantidad_alumnos", type="integer", example= "150"),
+     *          )
+     *      ),
+     *      @OA\Response (
+     *          response = 404,
+     *          description = "there are not courses"
+     *      )
+     * )
+     */
+    public function findAllCursos(Request $request)
+    {
+
+        $query = Curso::query();
+
+        if ($request->has('nombre')) {
+            $query->where('nombre', 'like', '%' . $request->input('titulo') . '%');
+        }
+
+        if ($request->has('limit')) {
+            $query->skip($request->input('offset', 0))
+                ->take($request->input('limit'));
+        }
+
+        return back()->with([
+            'flash' => [
+                'data' => $query->get()
+            ]
+        ]);
+    }
+
+
+    /**
+     * Obtener curso por el id
+     * 
+     * @OA\Get (
+     *      path="/institution/course/{id}",
+     *      operationId = "get one course by Id",
+     *      tags = {"curso"},
+     *      summary = "Get one Course by Id",
+     *      @OA\Parameter(
+     *          name = "id",
+     *          in = "path",
+     *          description = "Id of course",
+     *          required = true,
+     *          @OA\Schema(type = "integer", example = 1)
+     *      ),
+     *      @OA\Response (
+     *          response = 200,
+     *          description = "Course data",
+     *          @OA\JsonContent (
+     *              type = "object", 
+     *              @OA\Property(property= "id", type= "integer", example=1),
+     *              @OA\Property(property = "nombre", type="string", example= "Desarrollo de software"),
+     *              @OA\Property(property = "costo", type="float", example= "356000"),
+     *              @OA\Property(property = "cantidad_alumnos", type="integer", example= "150"),
+     *          )
+     *      ),
+     *      @OA\Response (
+     *          response = 404,
+     *          description = "Course not found"
+     *      )
+     * )
+     */
+    public function findById($id)
+    {
+        return back()->with([
+            'flash' => [
+                'data' => Curso::findOrFail($id)
+            ]
+        ]);
+    }
 }

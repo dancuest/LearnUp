@@ -17,7 +17,7 @@ use App\Models\Institucion;
 
 class InstitutionController extends Controller
 {
-    
+
     /**
      * Crear una institución 
      * 
@@ -117,7 +117,7 @@ class InstitutionController extends Controller
      *      )
      * )
      */
-    
+
     public function findById($id)
     {
         return back()->with([
@@ -135,7 +135,7 @@ class InstitutionController extends Controller
      *      path = "/institution/",
      *      operationId = "get Institutions",
      *      tags = {"institucion"},
-     *      summary = "Get an institutions",
+     *      summary = "Get institutions",
      *      @OA\ Response (
      *          response = 200,
      *          description = "List of institutions",
@@ -205,8 +205,8 @@ class InstitutionController extends Controller
      *      )
      * )
      *  
-     * */ 
-    
+     * */
+
     public function delete(Request $request, $id)
     {
         $institucion = Institucion::findOrFail($id);
@@ -264,7 +264,7 @@ class InstitutionController extends Controller
      *      )
      * )
      * 
-     *  */ 
+     *  */
     public function update(Request $request, $id)
     {
         $institucion = Institucion::findOrFail($id);
