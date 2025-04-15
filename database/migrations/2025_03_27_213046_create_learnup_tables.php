@@ -109,21 +109,21 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        Schema::create('accede_institucion_user', function (Blueprint $table){
+        Schema::create('accede_institucion_user', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('institucion_id')->constrained('instituciones')->onDelete('cascade');
             $table->timestamps();
         });
 
-        Schema::create('ensena_curso_user', function(Blueprint $table){
+        Schema::create('ensena_curso_user', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->foreignId('curso_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
 
-        Schema::create('estudia_curso_user', function (Blueprint $table){
+        Schema::create('estudia_curso_user', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('curso_id')->constrained()->onDelete('cascade');
@@ -137,7 +137,6 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('accede_institucion_user');
-        Schema::dropIfExists('ensena_institucion_user');
         Schema::dropIfExists('estudia_curso_user');
         Schema::dropIfExists('respuestas');
         Schema::dropIfExists('opciones');

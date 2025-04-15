@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use EventoCalendario;
+use App\Models\EventoCalendario;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;

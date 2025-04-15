@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use EventoCalendario;
+use App\Models\EventoCalendario;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 

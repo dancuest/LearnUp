@@ -1,5 +1,9 @@
 <?php
 
+namespace App\Models;
+
+use App\Models\EventoCalendario;
+
 use Illuminate\Database\Eloquent\Model;
 
 class TipoEvento extends Model
