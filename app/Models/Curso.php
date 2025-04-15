@@ -24,7 +24,7 @@ class Curso extends Model
      */
     public function userEstudia(): BelongsToMany
     {
-        return $this->belongsToMany(User::class);
+        return $this->belongsToMany(User::class, 'estudia_curso_user');
     }
 
     /**

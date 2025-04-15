@@ -82,7 +82,7 @@ class User extends Authenticatable implements AuthMustVerifyEmail
      */
     public function estudiaCurso(): BelongsToMany
     {
-        return $this->belongsToMany(Curso::class);
+        return $this->belongsToMany(Curso::class, 'estudia_curso_user');
     }
 
     /**
