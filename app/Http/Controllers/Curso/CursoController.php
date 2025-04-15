@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Curso;
 use App\Models\Institucion;
+use Illuminate\Support\Facades\DB;
 
 /**
  * OA\Info
@@ -88,7 +89,7 @@ class CursoController extends Controller
      *          response = 200,
      *          description = "List of courses",
      *          @OA\JsonContent (
-     *              type = "Object"
+     *              type = "Object",
      *              @OA\Property(property= "id", type= "integer", example=1),
      *              @OA\Property(property = "nombre", type="string", example= "Desarrollo de software"),
      *              @OA\Property(property = "costo", type="float", example= "356000"),
@@ -160,6 +161,134 @@ class CursoController extends Controller
         return back()->with([
             'flash' => [
                 'data' => Curso::findOrFail($id)
+            ]
+        ]);
+    }
+
+    /**
+     * Metodo para actualizar un curso
+     * 
+     * @OA\PUT(
+     *      path= "/institution/course/{id}",
+     *      operationId = "update course",
+     *      tags = {"curso"},
+     *      summary = "Update Course",
+     *      @OA\RequestBody(
+     *          description = "Course data",
+     *          @OA\JsonContent(
+     *              @OA\Property(property= "id", type= "integer", example=1),
+     *              @OA\Property(property = "nombre", type="string", example= "Sistemas de Información"),
+     *              @OA\Property(property = "costo", type="float", example= "35000"),
+     *              @OA\Property(property = "cantidad_alumnos", type="integer", example= "150"),
+     *          )
+     *      ),
+     *      @OA\Response (
+     *          response = 201,
+     *          description = "Course updated successfully",
+     *          @OA\JsonContent(
+     *              @OA\Property(property= "id", type= "integer", example=1),
+     *              @OA\Property(property = "nombre", type="string", example= "Ciberseguridad"),
+     *              @OA\Property(property = "costo", type="float", example= "380000"),
+     *              @OA\Property(property = "cantidad_alumnos", type="integer", example= "120"),
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response = 400,
+     *          description = "request failed"
+     *      )
+     * )
+     */
+    public function updateCourse(Request $request, $id)
+    {
+        $curso = Curso::findOrFail($id);
+        $userId = $request->user()->id;
+
+        $esCreador = DB::table('ensena_curso_user')
+            ->where('curso_id', $curso)
+            ->where('user_id', $userId)
+            ->exists();
+
+        if (!$esCreador) {
+            return back()->with([
+                'flash' => [
+                    'type' => 'error',
+                    'message' => 'No autorizado',
+                    'data' => null
+                ]
+            ])->setStatusCode(403);
+        }
+
+        $curso->update($request->all());
+
+        return back()->with([
+            'flash' => [
+                'type' => 'success',
+                'message' => 'Course update successfully',
+                'data' => $curso
+            ]
+        ]);
+    }
+
+    /**
+     * Metodo para eliminar un curso 
+     * 
+     * @OA\Delete (
+     *      path = "/institution/course/{id}",
+     *      operationId = "delete a course",
+     *      tags = {"curso"},
+     *      summary = "Delete a course by Id",
+     *      @OA\Parameter(
+     *          name = "id",
+     *          in = "path",
+     *          description = "Id of course",
+     *          required = true,
+     *          @OA\Schema(type = "integer", example = 1)
+     *      ),
+     *      @OA\Response(
+     *          response = 200,
+     *          description = "Course deleted",
+     *          @OA\JsonContent(
+     *              type = "object",
+     *              @OA\Property(property= "id", type= "integer", example=1),
+     *              @OA\Property(property = "nombre", type="string", example= "Ciberseguridad"),
+     *              @OA\Property(property = "costo", type="float", example= "380000"),
+     *              @OA\Property(property = "cantidad_alumnos", type="integer", example= "120"),
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response = 404,
+     *          description = "Course not deleted"
+     *      )
+     * )
+     */
+    public function deleteCurso(Request $request, $id)
+    {
+
+        $userId = $request->user()->id;
+        $curso = Curso::findOrFail($id);
+
+        $esCreador = DB::table('ensena_curso_user')
+            ->where('curso_id', $curso)
+            ->where('user_id', $userId)
+            ->exists();
+
+        if (!$esCreador) {
+            return back()->with([
+                'flash' => [
+                    'type' => 'error',
+                    'message' => 'No autorizado',
+                    'data' => null
+                ]
+            ])->setStatusCode(403);
+        }
+
+        $curso->delete();
+
+        return back()->with([
+            'flash' => [
+                'type' => 'success',
+                'message' => 'Curso eliminado',
+                'data' => ['deleted_id' => $id]
             ]
         ]);
     }

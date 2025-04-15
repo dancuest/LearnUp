@@ -85,6 +85,231 @@
                 }
             }
         },
+        "/institution/courses/": {
+            "get": {
+                "tags": [
+                    "curso"
+                ],
+                "summary": "Get all courses from a Institution",
+                "description": "Busqueda por filtros y paginación",
+                "operationId": "get all courses from a Institution",
+                "responses": {
+                    "200": {
+                        "description": "List of courses",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "nombre": {
+                                            "type": "string",
+                                            "example": "Desarrollo de software"
+                                        },
+                                        "costo": {
+                                            "type": "number",
+                                            "format": "float",
+                                            "example": "356000"
+                                        },
+                                        "cantidad_alumnos": {
+                                            "type": "integer",
+                                            "example": "150"
+                                        }
+                                    },
+                                    "type": "Object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "there are not courses"
+                    }
+                }
+            }
+        },
+        "/institution/course/{id}": {
+            "get": {
+                "tags": [
+                    "curso"
+                ],
+                "summary": "Get one Course by Id",
+                "description": "Obtener curso por el id",
+                "operationId": "get one course by Id",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id of course",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Course data",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "nombre": {
+                                            "type": "string",
+                                            "example": "Desarrollo de software"
+                                        },
+                                        "costo": {
+                                            "type": "number",
+                                            "format": "float",
+                                            "example": "356000"
+                                        },
+                                        "cantidad_alumnos": {
+                                            "type": "integer",
+                                            "example": "150"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Course not found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "curso"
+                ],
+                "summary": "Update Course",
+                "description": "Metodo para actualizar un curso",
+                "operationId": "update course",
+                "requestBody": {
+                    "description": "Course data",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "nombre": {
+                                        "type": "string",
+                                        "example": "Sistemas de Información"
+                                    },
+                                    "costo": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": "35000"
+                                    },
+                                    "cantidad_alumnos": {
+                                        "type": "integer",
+                                        "example": "150"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Course updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "nombre": {
+                                            "type": "string",
+                                            "example": "Ciberseguridad"
+                                        },
+                                        "costo": {
+                                            "type": "number",
+                                            "format": "float",
+                                            "example": "380000"
+                                        },
+                                        "cantidad_alumnos": {
+                                            "type": "integer",
+                                            "example": "120"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "request failed"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "curso"
+                ],
+                "summary": "Delete a course by Id",
+                "description": "Metodo para eliminar un curso",
+                "operationId": "delete a course",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id of course",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Course deleted",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "nombre": {
+                                            "type": "string",
+                                            "example": "Ciberseguridad"
+                                        },
+                                        "costo": {
+                                            "type": "number",
+                                            "format": "float",
+                                            "example": "380000"
+                                        },
+                                        "cantidad_alumnos": {
+                                            "type": "integer",
+                                            "example": "120"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Course not deleted"
+                    }
+                }
+            }
+        },
         "/institution/create": {
             "post": {
                 "tags": [
@@ -222,7 +447,7 @@
                 "tags": [
                     "institucion"
                 ],
-                "summary": "Get an institutions",
+                "summary": "Get institutions",
                 "description": "Busqueda por filtros y paginación",
                 "operationId": "get Institutions",
                 "responses": {

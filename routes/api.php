@@ -29,6 +29,9 @@ Route::prefix('institution')->group(function () {
 });
 
 Route::prefix('institution')->group(function () {
+    Route::get('courses', [CursoController::class, 'findAllCursos'])->name('curso.findAll');
+    Route::get('{id}', [CursoController::class, 'findById'])->name('curso.findById');
+
     Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('{institution}/course', [CursoController::class, 'createCurso'])->name('curso.createCurso');
     });
