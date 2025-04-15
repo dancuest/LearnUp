@@ -34,5 +34,7 @@ Route::prefix('institution')->group(function () {
 
     Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('{institution}/course', [CursoController::class, 'createCurso'])->name('curso.createCurso');
+        Route::put('course/{id}', [CursoController::class, 'updateCourse'])->name('curso.updateCurso');
+        Route::delete('course/{id}', [CursoController::class, 'deleteCurso'])->name('curso.deleteCurso');
     });
 });
