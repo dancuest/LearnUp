@@ -17,7 +17,7 @@ use App\Models\Institucion;
 
 class InstitutionController extends Controller
 {
-    
+
     /**
      * Crear una institución 
      * 
@@ -79,7 +79,7 @@ class InstitutionController extends Controller
             'flash' => [
                 'type' => 'success',
                 'message' => 'Institución creada exitosamente',
-                'data' => $institucion // <<-- Todo el objeto aquí
+                'data' => $institucion
             ]
         ]);
     }
@@ -117,11 +117,13 @@ class InstitutionController extends Controller
      *      )
      * )
      */
-    
+
     public function findById($id)
     {
         return back()->with([
             'flash' => [
+                'type' => 'success',
+                'message' => 'Institución encontrada',
                 'data' => Institucion::findOrFail($id) // <<-- Datos aquí
             ]
         ]);
@@ -162,13 +164,15 @@ class InstitutionController extends Controller
         }
 
         if ($request->has('limit')) {
-            $query->skip($request->input('offset', 0))
+            $query->skip($request->input('offset', 0) * $request->input('limit'))
                 ->take($request->input('limit'));
         }
 
         return back()->with([
             'flash' => [
-                'data' => $query->get() // <<-- Lista completa aquí
+                'type' => 'success',
+                'message' => 'Instituciones encontradas',
+                'data' => $query->get()
             ]
         ]);
     }
@@ -205,8 +209,8 @@ class InstitutionController extends Controller
      *      )
      * )
      *  
-     * */ 
-    
+     * */
+
     public function delete(Request $request, $id)
     {
         $institucion = Institucion::findOrFail($id);
@@ -264,7 +268,7 @@ class InstitutionController extends Controller
      *      )
      * )
      * 
-     *  */ 
+     *  */
     public function update(Request $request, $id)
     {
         $institucion = Institucion::findOrFail($id);
@@ -285,7 +289,7 @@ class InstitutionController extends Controller
             'flash' => [
                 'type' => 'success',
                 'message' => 'Institución actualizada',
-                'data' => $institucion // <<-- Datos actualizados
+                'data' => $institucion
             ]
         ]);
     }

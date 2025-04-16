@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use EventoCalendario;
+use App\Models\EventoCalendario;
 use Illuminate\Database\Eloquent\Model;
 
 class Curso extends Model

@@ -1,9 +1,12 @@
 <?php
 
+namespace App\Models;
+
 use App\Models\Curso;
 use App\Models\Entregable;
 use App\Models\Formulario;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\TipoEvento;
 
 class EventoCalendario extends Model
 {
@@ -48,6 +51,6 @@ class EventoCalendario extends Model
 
     public function tipoEvento()
     {
-        return $this->belongsTo(tipoEvento::class);
+        return $this->belongsTo(TipoEvento::class);
     }
 }
