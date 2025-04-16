@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\Institution\InstitutionController;
+use App\Http\Controllers\Curso\CursoController;
+use App\Http\Controllers\CursoInscripcionController;
 use App\Http\Controllers\Institution\InstitutionUsersController;
 
 Route::middleware('auth')->group(function () {
@@ -24,5 +26,22 @@ Route::prefix('institution')->group(function () {
             Route::post('add', [InstitutionUsersController::class, 'addUserToInstitution'])->name('institution.addUser');
             Route::delete('remove', [InstitutionUsersController::class, 'removeUserFromInstitution'])->name('institution.removeUser');
         });
+    });
+});
+
+Route::prefix('institution')->group(function () {
+    Route::get('courses', [CursoController::class, 'findAllCursos'])->name('curso.findAll');
+    Route::get('{id}', [CursoController::class, 'findById'])->name('curso.findById');
+
+    Route::middleware(['auth', 'verified'])->group(function () {
+        Route::post('{institution}/course', [CursoController::class, 'createCurso'])->name('curso.createCurso');
+        Route::put('course/{id}', [CursoController::class, 'updateCourse'])->name('curso.updateCurso');
+        Route::delete('course/{id}', [CursoController::class, 'deleteCurso'])->name('curso.deleteCurso');
+    });
+});
+
+Route::prefix('Course')->group(function () {
+    Route::middleware(['auth', 'verified'])->group(function () {
+        Route::post('{course_id}/inscription', [CursoInscripcionController::class, 'inscripcion'])->name('curso.inscripcion');
     });
 });
