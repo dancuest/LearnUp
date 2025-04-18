@@ -17,7 +17,7 @@ use App\Models\Institucion;
 
 class InstitutionController extends Controller
 {
-    
+
     /**
      * Crear una institución 
      * 
@@ -117,7 +117,7 @@ class InstitutionController extends Controller
      *      )
      * )
      */
-    
+
     public function findById($id)
     {
         return back()->with([
@@ -127,38 +127,26 @@ class InstitutionController extends Controller
         ]);
     }
 
-
     /**
-     * Busqueda por filtros y paginación 
-     * 
-     * @OA\Get (
-     *      path = "/institution/",
-     *      operationId = "get Institutions",
-     *      tags = {"institucion"},
-     *      summary = "Get an institutions",
-     *      @OA\ Response (
-     *          response = 200,
-     *          description = "List of institutions",
-     *          @OA\JsonContent (
-     *              type = "object",
-     *              @OA\Property(property="id", type="integer", example=1),
-     *              @OA\Property(property="nombre", type="string", example="Univalle"),
-     *              @OA\Property(property="tipo", type="string", example="publica"),                 
-     *              @OA\Property(property="Capacidad", type="integer", example=1500)
-     *          )
-     *      ),
-     *      @OA\Response(
-     *          response = 404,
-     *          description = "There are not institutions"
-     *      )
-     * )
+     * Recupera una lista de instituciones basándose en los filtros proporcionados.
+     *
+     * Este método permite filtrar instituciones por su nombre y soporta
+     * paginación utilizando los parámetros de offset y limit.
+     *
+     * @param \Illuminate\Http\Request $request La instancia de la solicitud HTTP que contiene
+     *                                          parámetros de consulta opcionales:
+     *                                          - 'nombre': Una cadena para filtrar instituciones por nombre (coincidencia parcial).
+     *                                          - 'limit': El número máximo de registros a recuperar.
+     *                                          - 'offset': El número de registros a omitir (por defecto es 0).
+     *
+     * @return \Illuminate\Http\JsonResponse Una respuesta JSON que contiene la lista filtrada de instituciones.
      */
-    public function findAll(Request $request)
+    public function findAll(Request $request) //modificaciones para busqueda y get
     {
         $query = Institucion::query();
 
-        if ($request->has('titulo')) {
-            $query->where('titulo', 'like', '%' . $request->input('titulo') . '%');
+        if ($request->filled('nombre')) {
+            $query->where('nombre', 'like', '%' . $request->input('nombre') . '%');
         }
 
         if ($request->has('limit')) {
@@ -166,11 +154,10 @@ class InstitutionController extends Controller
                 ->take($request->input('limit'));
         }
 
-        return back()->with([
-            'flash' => [
-                'data' => $query->get() // <<-- Lista completa aquí
-            ]
-        ]);
+        return response()->json(
+            $query->get() // <<-- Lista completa aquí
+
+        );
     }
 
     /**
@@ -205,8 +192,8 @@ class InstitutionController extends Controller
      *      )
      * )
      *  
-     * */ 
-    
+     * */
+
     public function delete(Request $request, $id)
     {
         $institucion = Institucion::findOrFail($id);
@@ -264,7 +251,7 @@ class InstitutionController extends Controller
      *      )
      * )
      * 
-     *  */ 
+     *  */
     public function update(Request $request, $id)
     {
         $institucion = Institucion::findOrFail($id);
