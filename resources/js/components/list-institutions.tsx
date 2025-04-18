@@ -59,30 +59,32 @@ const ListInstitutions: React.FC = () => {
             <SearchInstitutions onResults={setInstitutions} />
             {
                 institutions && institutions.length > 0 ? (
-                    <ul className="text-black grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                        {institutions.map((institution) => (
-                            <Card
-                                key={institution.id}
-                                className="group relative w-[300px] h-[200px] rounded-md overflow-hidden transition-shadow hover:shadow-xl"
-                            >
-                                <div
-                                    className="absolute inset-0 bg-cover bg-center transition-transform duration-300 group-hover:scale-105"
-                                    style={{
-                                        backgroundImage: `url(${institution.imagen_perfil})`,
-                                    }}
-                                ></div>
-                                <div className="absolute inset-0 bg-black opacity-30 group-hover:opacity-60 transition-opacity duration-300"></div>
-                                <div className=" z-10 p-4 pt-0 text-white h-full flex flex-col justify-start items-start">
-                                    <CardTitle className="text-lg font-bold">{institution.nombre}</CardTitle>
-                                    <CardDescription
-                                        className="text-sm text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300 mt-2"
-                                    >
-                                        {truncateDescription(institution.descripcion, 30)}
-                                    </CardDescription>
-                                </div>
-                            </Card>
-                        ))}
-                    </ul>
+                    <div className='w-full flex justify-evenly '>
+                        <ul className="text-black grid grid-cols-1 mt-2 mb-4 md:grid-cols-2 lg:grid-cols-3 gap-16">
+                            {institutions.map((institution) => (
+                                <Card
+                                    key={institution.id}
+                                    className="group relative w-[300px] h-[200px] rounded-md overflow-hidden transition-shadow hover:shadow-xl"
+                                >
+                                    <div
+                                        className="absolute inset-0 bg-cover bg-center transition-transform duration-300 group-hover:scale-105"
+                                        style={{
+                                            backgroundImage: `url(${institution.imagen_perfil})`,
+                                        }}
+                                    ></div>
+                                    <div className="absolute inset-0 bg-black opacity-30 group-hover:opacity-60 transition-opacity duration-300"></div>
+                                    <div className=" z-10 p-4 pt-0 text-white h-full flex flex-col justify-start items-start">
+                                        <CardTitle className="text-lg font-bold">{institution.nombre}</CardTitle>
+                                        <CardDescription
+                                            className="text-sm text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300 mt-2"
+                                        >
+                                            {truncateDescription(institution.descripcion, 30)}
+                                        </CardDescription>
+                                    </div>
+                                </Card>
+                            ))}
+                        </ul>
+                    </div>
                 ) : (
                     <p>No hay instituciones</p>
                 )

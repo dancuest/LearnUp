@@ -15,7 +15,7 @@ export default function Homepage() {
     return (
         <>
             <Navbar props={propsNavbar} />
-            <Carrusel className="w-full mt-4 max-w-[1050px] h-[350px]"
+            <Carrusel className="w-full mt-4 max-w-[1100px] h-[330px]"
                 imagenes={[
                     "https://i.pinimg.com/736x/7f/ff/2b/7fff2be551c4e31b0bd1c648b10d2cb0.jpg",
                     "https://i.pinimg.com/736x/2a/9b/c1/2a9bc109983886b44ec21e21bf94ac51.jpg",

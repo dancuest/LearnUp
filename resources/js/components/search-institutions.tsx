@@ -87,7 +87,7 @@ const SearchInstitutions: React.FC<SearchInstitutionsProps> = ({ onResults }) =>
     }, []);
 
     return (
-        <div className="flex justify-center mb-4">
+        <div className="w-full flex justify-center mb-4">
             <Input
                 ref={searchInputRef}
                 type="text"
