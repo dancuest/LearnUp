@@ -37,5 +37,6 @@ Route::prefix('institution')->group(function () {
 Route::prefix('course')->group(function () {
     Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('{course_id}/inscription', [CursoInscripcionController::class, 'inscripcion'])->name('curso.inscripcion');
+        Route::get('{course_id}/students', [CursoInscripcionController::class, 'findAllStudents'])->name('curso.buscarEstudiantes');
     });
 });
