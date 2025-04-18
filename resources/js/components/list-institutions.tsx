@@ -53,14 +53,14 @@ const ListInstitutions: React.FC = () => {
 
     return (
         <div>
-            <h1 className="flex text-3xl font-extrabold justify-center items-center m-4 dark:text-white">
+            <h1 className="flex text-3xl font-extrabold justify-center items-center m-4 dark:text-white sm:text-4xl  lg:text-5xl">
                 Establecimientos Educativos
             </h1>
             <SearchInstitutions onResults={setInstitutions} />
             {
                 institutions && institutions.length > 0 ? (
                     <div className='w-full flex justify-evenly '>
-                        <ul className="text-black grid grid-cols-1 mt-2 mb-4 md:grid-cols-2 lg:grid-cols-3 gap-16">
+                        <ul className="text-black grid grid-cols-1 mt-2 mb-4 gap-4 md:grid-cols-2  sm:gap-16 lg:grid-cols-3 ">
                             {institutions.map((institution) => (
                                 <Card
                                     key={institution.id}
