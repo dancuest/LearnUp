@@ -24,9 +24,16 @@ Route::prefix('institution')->group(function () {
         Route::post('create', [InstitutionController::class, 'create'])->name('institution.create');
         Route::delete('delete', [InstitutionController::class, 'delete'])->name('institution.delete');
         Route::put('update', [InstitutionController::class, 'update'])->name('institution.update');
-        Route::post('{institution_id}/course', [CursoController::class, 'createCurso'])->name('curso.createCurso');
-        Route::put('course/{course_id}', [CursoController::class, 'updateCourse'])->name('curso.updateCurso');
-        Route::delete('course/{course_id}', [CursoController::class, 'deleteCurso'])->name('curso.deleteCurso');
+
+        Route::middleware(['validar.creador.institucion'])->group(function () {
+            Route::post('{institution_id}/course', [CursoController::class, 'createCurso'])->name('curso.createCurso');
+        });
+
+        Route::middleware(['validar.creador.curso'])->group(function () {
+            Route::put('course/{course_id}', [CursoController::class, 'updateCourse'])->name('curso.updateCurso');
+            Route::delete('course/{course_id}', [CursoController::class, 'deleteCurso'])->name('curso.deleteCurso');
+        });
+
         Route::prefix('user')->group(function () {
             Route::post('add', [InstitutionUsersController::class, 'addUserToInstitution'])->name('institution.addUser');
             Route::delete('remove', [InstitutionUsersController::class, 'removeUserFromInstitution'])->name('institution.removeUser');

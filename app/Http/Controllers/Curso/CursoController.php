@@ -59,6 +59,8 @@ class CursoController extends Controller
      */
     public function createCurso(Request $request, Institucion $institucion)
     {
+        $user = $request->user();
+
         $validateData = $request->validate([
             'nombre' => 'required|string|max:255',
             'costo' => 'required|float',
@@ -66,6 +68,8 @@ class CursoController extends Controller
         ]);
 
         $validateData['institucion_id'] = $institucion->id;
+        $validateData['creador_id'] = $user->id;
+
         $curso = Curso::create($validateData);
 
         return back()->with([
