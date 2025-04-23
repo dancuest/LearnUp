@@ -3,6 +3,7 @@ import Carrusel from "@/components/carrusel";
 import Navbar from "@/components/navbar";
 import UploadImageButton from "@/components/Buttons/upload-image-button";
 import FormInstitucion from "@/components/form-institucion";
+import CourseCreation from "@/components/CourseCreation";
 
 export default function StyleGuide() {
     const propsNavbar = {
@@ -50,6 +51,7 @@ export default function StyleGuide() {
                 <h2> Componente Target</h2>
                 <InstitutionTarget props={propsTargetInstitucion} />
                 <FormInstitucion />
+                <CourseCreation />
             </div>
         </>
     )
