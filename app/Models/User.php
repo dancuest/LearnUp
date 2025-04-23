@@ -69,6 +69,11 @@ class User extends Authenticatable implements AuthMustVerifyEmail
         return $this->belongsToMany(Institucion::class);
     }
 
+    public function creaCurso(): HasMany
+    {
+        return $this->hasMany(Curso::class, 'creador_id');
+    }
+
     /**
      * An User can to teach in many courses
      */

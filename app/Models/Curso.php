@@ -19,6 +19,11 @@ class Curso extends Model
         'cantidad_alumnos',
     ];
 
+    public function creador(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'creador_id');
+    }
+
     /**
      * Many users can to belongs to the course
      */

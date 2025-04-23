@@ -11,10 +11,6 @@ class CursoInscripcionController extends Controller
     {
         $user = $request->user();
 
-        if (!$user || !$user->hasVerifiedEmail()) {
-            return redirect()->route('verification.notice');
-        }
-
         if ($user->cursos()->where('curso_id', $curso->id)->exists()) {
             return response()->json([
                 'message' => 'Ya estás inscrito en este curso'
@@ -41,5 +37,18 @@ class CursoInscripcionController extends Controller
     private function validarPago(Request $request)
     {
         return true;
+    }
+
+    public function findAllStudents(Request $request, Curso $curso)
+    {
+        $query = $curso->userEstudia();
+
+        if ($request->has('nombre')) {
+            $query->where('name', 'like', '%' . $request->nombre . '%');
+        }
+
+        $estudiantes = $query->get();
+
+        return response()->json($estudiantes);
     }
 }
