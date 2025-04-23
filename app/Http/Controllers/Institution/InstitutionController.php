@@ -128,18 +128,29 @@ class InstitutionController extends Controller
     }
 
     /**
-     * Recupera una lista de instituciones basándose en los filtros proporcionados.
-     *
-     * Este método permite filtrar instituciones por su nombre y soporta
-     * paginación utilizando los parámetros de offset y limit.
-     *
-     * @param \Illuminate\Http\Request $request La instancia de la solicitud HTTP que contiene
-     *                                          parámetros de consulta opcionales:
-     *                                          - 'nombre': Una cadena para filtrar instituciones por nombre (coincidencia parcial).
-     *                                          - 'limit': El número máximo de registros a recuperar.
-     *                                          - 'offset': El número de registros a omitir (por defecto es 0).
-     *
-     * @return \Illuminate\Http\JsonResponse Una respuesta JSON que contiene la lista filtrada de instituciones.
+     * Busqueda por filtros y paginación 
+     * 
+     * @OA\Get (
+     *      path = "/institution/",
+     *      operationId = "get Institutions",
+     *      tags = {"institucion"},
+     *      summary = "Get institutions",
+     *      @OA\ Response (
+     *          response = 200,
+     *          description = "List of institutions",
+     *          @OA\JsonContent (
+     *              type = "object",
+     *              @OA\Property(property="id", type="integer", example=1),
+     *              @OA\Property(property="nombre", type="string", example="Univalle"),
+     *              @OA\Property(property="tipo", type="string", example="publica"),                 
+     *              @OA\Property(property="Capacidad", type="integer", example=1500)
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response = 404,
+     *          description = "There are not institutions"
+     *      )
+     * )
      */
     public function findAll(Request $request) //modificaciones para busqueda y get
     {
