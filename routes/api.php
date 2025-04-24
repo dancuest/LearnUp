@@ -29,7 +29,7 @@ Route::prefix('institution')->group(function () {
             Route::post('{institution_id}/course', [CursoController::class, 'createCurso'])->name('curso.createCurso');
         });
 
-        Route::middleware(['validar.creador.curso'])->group(function () {
+        Route::middleware(['validar.docente.curso'])->group(function () {
             Route::put('course/{course_id}', [CursoController::class, 'updateCourse'])->name('curso.updateCurso');
             Route::delete('course/{course_id}', [CursoController::class, 'deleteCurso'])->name('curso.deleteCurso');
         });

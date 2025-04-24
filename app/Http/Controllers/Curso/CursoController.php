@@ -65,10 +65,10 @@ class CursoController extends Controller
             'nombre' => 'required|string|max:255',
             'costo' => 'required|float',
             'cantidad_alumnos' => 'required|integer',
+            'docente_id' => 'required|integer|exists:users,id',
         ]);
 
         $validateData['institucion_id'] = $institucion->id;
-        $validateData['creador_id'] = $user->id;
 
         $curso = Curso::create($validateData);
 

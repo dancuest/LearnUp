@@ -27,7 +27,9 @@ class CursoInscripcionController extends Controller
             }
         }
 
-        $user->cursos()->attach($curso->id);
+        $curso->userEstudia()->attach($user->id);
+        $curso->increment('cantidad_alumnos');
+        $curso->save();
 
         return response()->json([
             'message' => 'Inscripción exitosa'

@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use App\Models\Curso;
 
-class ValidarCreadorCurso
+class ValidarDocenteCurso
 {
     public function handle(Request $request, Closure $next): Response
     {
@@ -26,8 +26,7 @@ class ValidarCreadorCurso
             return response()->json(['message' => 'Course not found.'], 404);
         }
 
-
-        if ($curso->creador_id !== $user->id) {
+        if ($curso->docente_id !== $user->id) {
             return response()->json(['message' => 'Unauthorized: You are not the owner of this course.'], 403);
         }
 

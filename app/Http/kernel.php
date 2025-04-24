@@ -9,6 +9,6 @@ class Kernel extends HttpKernel
     protected $routeMiddleware = [
 
         'validar.creador.institucion' => \App\Http\Middleware\ValidarCreadorInstitucion::class,
-        'validar.creador.curso' => \App\Http\Middleware\ValidarCreadorCurso::class,
+        'validar.docente.curso' => \App\Http\Middleware\ValidarDocenteCurso::class,
     ];
 }

@@ -19,9 +19,9 @@ class Curso extends Model
         'cantidad_alumnos',
     ];
 
-    public function creador(): BelongsTo
+    public function docente(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'creador_id');
+        return $this->belongsTo(User::class, 'docente_id');
     }
 
     /**
