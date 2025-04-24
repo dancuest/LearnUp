@@ -129,7 +129,6 @@ class InstitutionController extends Controller
         ]);
     }
 
-
     /**
      * Busqueda por filtros y paginación 
      * 
@@ -137,7 +136,7 @@ class InstitutionController extends Controller
      *      path = "/institution/",
      *      operationId = "get Institutions",
      *      tags = {"institucion"},
-     *      summary = "Get an institutions",
+     *      summary = "Get institutions",
      *      @OA\ Response (
      *          response = 200,
      *          description = "List of institutions",
@@ -155,12 +154,12 @@ class InstitutionController extends Controller
      *      )
      * )
      */
-    public function findAll(Request $request)
+    public function findAll(Request $request) //modificaciones para busqueda y get
     {
         $query = Institucion::query();
 
-        if ($request->has('titulo')) {
-            $query->where('titulo', 'like', '%' . $request->input('titulo') . '%');
+        if ($request->filled('nombre')) {
+            $query->where('nombre', 'like', '%' . $request->input('nombre') . '%');
         }
 
         if ($request->has('limit')) {

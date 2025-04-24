@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use App\Models\EventoCalendario;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -41,17 +43,23 @@ class User extends Authenticatable
             ->withPivot(['rol', 'estado', 'estado_pago', 'fecha_pago']);
     }
 
-    public function cursosComoDocente()
+    public function ensenaCurso(): BelongsToMany
     {
-        return $this->hasMany(Curso::class, 'docente_id');
+        return $this->belongsToMany(Curso::class, 'docente_id');
     }
 
-    public function cursosInscritos()
+    /**
+     * An user can to study in many courses
+     */
+    public function estudiaCurso(): BelongsToMany
     {
         return $this->belongsToMany(Curso::class, 'estudia_curso_user');
     }
 
-    public function entregablesAsignados()
+    /**
+     * An ser can to do many pays
+     */
+    public function pago(): HasMany
     {
         return $this->hasMany(Entregable::class, 'user_id');
     }
