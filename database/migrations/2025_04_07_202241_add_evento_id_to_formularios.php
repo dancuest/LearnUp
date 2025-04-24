@@ -8,15 +8,23 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::table('formularios', function (Blueprint $table) {
-            $table->foreignId('evento_id')->nullable()->constrained('eventos_calendario')->nullOnDelete();
-        });
+        if (Schema::hasTable('formularios')) {
+            Schema::table('formularios', function (Blueprint $table) {
+                if (!Schema::hasColumn('formularios', 'evento_id')) {
+                    $table->foreignId('evento_id')->nullable()->constrained('eventos_calendario')->nullOnDelete();
+                }
+            });
+        }
     }
 
     public function down()
     {
-        Schema::table('formularios', function (Blueprint $table) {
-            $table->dropConstrainedForeignId('evento_id');
-        });
+        if (Schema::hasTable('formularios')) {
+            Schema::table('formularios', function (Blueprint $table) {
+                if (Schema::hasColumn('formularios', 'evento_id')) {
+                    $table->dropConstrainedForeignId('evento_id');
+                }
+            });
+        }
     }
 };

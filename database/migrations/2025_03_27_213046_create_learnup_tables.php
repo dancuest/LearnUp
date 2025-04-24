@@ -136,8 +136,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('accede_institucion_user');
-        Schema::dropIfExists('estudia_curso_user');
         Schema::dropIfExists('respuestas');
         Schema::dropIfExists('opciones');
         Schema::dropIfExists('preguntas');
@@ -145,9 +143,13 @@ return new class extends Migration
         Schema::dropIfExists('formularios');
         Schema::dropIfExists('entregas');
         Schema::dropIfExists('entregables');
-        Schema::dropIfExists('pagos');
-        Schema::dropIfExists('cursos');
-        Schema::dropIfExists('instituciones');
         Schema::dropIfExists('assets');
+        Schema::dropIfExists('pagos');
+        Schema::dropIfExists('eventos_calendario'); // Eliminar eventos antes de cursos
+        Schema::dropIfExists('estudia_curso_user');
+        Schema::dropIfExists('ensena_curso_user');
+        Schema::dropIfExists('accede_institucion_user');
+        Schema::dropIfExists('cursos'); // Eliminar cursos después de dependencias
+        Schema::dropIfExists('instituciones');
     }
 };

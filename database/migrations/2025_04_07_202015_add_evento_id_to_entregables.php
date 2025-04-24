@@ -8,15 +8,23 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::table('entregables', function (Blueprint $table) {
-            $table->foreignId('evento_id')->nullable()->constrained('eventos_calendario')->nullOnDelete();
-        });
+        if (Schema::hasTable('entregables')) {
+            Schema::table('entregables', function (Blueprint $table) {
+                if (!Schema::hasColumn('entregables', 'evento_id')) {
+                    $table->foreignId('evento_id')->nullable()->constrained('eventos_calendario')->nullOnDelete();
+                }
+            });
+        }
     }
 
     public function down()
     {
-        Schema::table('entregables', function (Blueprint $table) {
-            $table->dropConstrainedForeignId('evento_id');
-        });
+        if (Schema::hasTable('entregables')) {
+            Schema::table('entregables', function (Blueprint $table) {
+                if (Schema::hasColumn('entregables', 'evento_id')) {
+                    $table->dropConstrainedForeignId('evento_id');
+                }
+            });
+        }
     }
 };

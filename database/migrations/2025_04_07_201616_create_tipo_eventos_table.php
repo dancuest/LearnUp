@@ -28,6 +28,12 @@ return new class extends Migration
 
     public function down()
     {
+        if (Schema::hasTable('eventos_calendario')) {
+            Schema::table('eventos_calendario', function (Blueprint $table) {
+                $table->dropForeign(['tipo_evento_id']);
+            });
+        }
+
         Schema::dropIfExists('tipos_evento');
     }
 };
