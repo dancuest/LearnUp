@@ -1,7 +1,6 @@
 import { type SharedData } from '@/types';
 import { Head, Link, usePage } from '@inertiajs/react';
 import 'swiper/css';
-import Carrusel from '@/components/carrusel';
 
 export default function Welcome() {
     const { auth } = usePage<SharedData>().props;
