@@ -79,7 +79,7 @@ class InstitutionController extends Controller
             'flash' => [
                 'type' => 'success',
                 'message' => 'Institución creada exitosamente',
-                'data' => $institucion // <<-- Todo el objeto aquí
+                'data' => $institucion
             ]
         ]);
     }
@@ -122,6 +122,8 @@ class InstitutionController extends Controller
     {
         return back()->with([
             'flash' => [
+                'type' => 'success',
+                'message' => 'Institución encontrada',
                 'data' => Institucion::findOrFail($id) // <<-- Datos aquí
             ]
         ]);
@@ -161,14 +163,17 @@ class InstitutionController extends Controller
         }
 
         if ($request->has('limit')) {
-            $query->skip($request->input('offset', 0))
+            $query->skip($request->input('offset', 0) * $request->input('limit'))
                 ->take($request->input('limit'));
         }
 
-        return response()->json(
-            $query->get() // <<-- Lista completa aquí
-
-        );
+        return back()->with([
+            'flash' => [
+                'type' => 'success',
+                'message' => 'Instituciones encontradas',
+                'data' => $query->get()
+            ]
+        ]);
     }
 
     /**
@@ -283,7 +288,7 @@ class InstitutionController extends Controller
             'flash' => [
                 'type' => 'success',
                 'message' => 'Institución actualizada',
-                'data' => $institucion // <<-- Datos actualizados
+                'data' => $institucion
             ]
         ]);
     }

@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Formulario extends Model
 {
@@ -18,22 +20,30 @@ class Formulario extends Model
     /**
      * Form belongs to an user
      */
-    public function userCreaForm (): BelongsTo {
-        return $this -> belongsTo(User::class);
+    public function userCreaForm(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 
     /**
      * Form belongs to an course
      */
-    public  function cursos(): BelongsTo {
-        return $this -> belongsTo(Curso::class);
-    }
-    
-    public function pregunta(): HasMany {
-        return $this -> hasMany(Pregunta::class);
+    public  function cursos(): BelongsTo
+    {
+        return $this->belongsTo(Curso::class);
     }
 
-    public function intento(): HasMany {
+    public function pregunta(): HasMany
+    {
+        return $this->hasMany(Pregunta::class);
+    }
+
+    public function intento(): HasMany
+    {
         return $this->hasMany(Intento::class);
+    }
+    public function evento()
+    {
+        return $this->hasOne(EventoCalendario::class);
     }
 }

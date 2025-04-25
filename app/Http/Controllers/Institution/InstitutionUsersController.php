@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Institution;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Inertia\Inertia;
 
 class InstitutionUsersController extends Controller
 {
@@ -25,16 +24,28 @@ class InstitutionUsersController extends Controller
             ->exists();
 
         if ($request->user_id !== $request->user()->id && !$isOwner) {
-            return Inertia::render('Error', ['message' => 'No tienes permiso para realizar esta acción.']);
+            return back()->with([
+                'flash' => [
+                    'type' => 'error',
+                    'message' => 'No autorizado',
+                    'data' => null
+                ]
+            ])->setStatusCode(403);
         }
 
-        DB::table('accede_institucion_user')->insert([
+        $data = DB::table('accede_institucion_user')->insert([
             'user_id' => $request->user_id,
             'institucion_id' => $request->institucion_id,
             'created_at' => now(),
             'updated_at' => now(),
         ]);
-        return Inertia::render('Success', ['message' => 'Usuario agregado a la institución exitosamente.']);
+        return back()->with([
+            'flash' => [
+                'type' => 'success',
+                'message' => 'Usuario agregado a la institución exitosamente.',
+                'data' => $data
+            ]
+        ]);
     }
 
     /**
@@ -54,13 +65,26 @@ class InstitutionUsersController extends Controller
 
 
         if ($request->user_id !== $request->user()->id && !$isOwner) {
-            return Inertia::render('Error', ['message' => 'No tienes permiso para realizar esta acción.']);
+            return back()->with([
+                'flash' => [
+                    'type' => 'error',
+                    'message' => 'No autorizado',
+                    'data' => null
+                ]
+            ])->setStatusCode(403);
         }
 
-        DB::table('accede_institucion_user')
+        $data = DB::table('accede_institucion_user')
             ->where('user_id', $request->user_id)
             ->where('institucion_id', $request->institucion_id)
             ->delete();
-        return Inertia::render('Success', ['message' => 'Usuario eliminado de la institución exitosamente.']);
+
+        return back()->with([
+            'flash' => [
+                'type' => 'success',
+                'message' => 'Usuario eliminado de la institución exitosamente.',
+                'data' => $data
+            ]
+        ]);
     }
 }
