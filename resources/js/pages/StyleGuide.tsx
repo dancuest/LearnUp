@@ -4,6 +4,7 @@ import Navbar from "@/components/navbar";
 import UploadImageButton from "@/components/Buttons/upload-image-button";
 import FormInstitucion from "@/components/form-institucion";
 import ListInstitutions from "@/components/list-institutions";
+import CourseCreationForm from "@/components/createCurse";
 
 export default function StyleGuide() {
     const propsNavbar = {
@@ -53,6 +54,12 @@ export default function StyleGuide() {
                     numSlide={2}>
                 </Carrusel>
                 <ListInstitutions />
+                <CourseCreationForm 
+                    instituciones={[
+                        { id: "1", nombre: "Institución 1" },
+                        { id: "2", nombre: "Institución 2" },
+                    ]}
+                />
             </div>
         </>
     )
