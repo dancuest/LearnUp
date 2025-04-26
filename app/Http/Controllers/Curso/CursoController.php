@@ -59,13 +59,17 @@ class CursoController extends Controller
      */
     public function createCurso(Request $request, Institucion $institucion)
     {
+        $user = $request->user();
+
         $validateData = $request->validate([
             'nombre' => 'required|string|max:255',
             'costo' => 'required|float',
             'cantidad_alumnos' => 'required|integer',
+            'docente_id' => 'required|integer|exists:users,id',
         ]);
 
         $validateData['institucion_id'] = $institucion->id;
+
         $curso = Curso::create($validateData);
 
         return back()->with([
@@ -104,11 +108,16 @@ class CursoController extends Controller
      */
     public function findAllCursos(Request $request)
     {
+        $institucionId = $request->route('institution_id') ?? $request->input('institucion_id');
 
-        $query = Curso::query();
+        if (!$institucionId) {
+            return back()->withErrors('Debe proporcionar un ID de institución.');
+        }
+
+        $query = Curso::where('institution_id', $institucionId);
 
         if ($request->has('nombre')) {
-            $query->where('nombre', 'like', '%' . $request->input('titulo') . '%');
+            $query->where('nombre', 'like', '%' . $request->input('nombre') . '%');
         }
 
         if ($request->has('limit')) {
@@ -122,7 +131,6 @@ class CursoController extends Controller
             ]
         ]);
     }
-
 
     /**
      * Obtener curso por el id
@@ -201,22 +209,6 @@ class CursoController extends Controller
     public function updateCourse(Request $request, $id)
     {
         $curso = Curso::findOrFail($id);
-        $userId = $request->user()->id;
-
-        $esCreador = DB::table('ensena_curso_user')
-            ->where('curso_id', $curso)
-            ->where('user_id', $userId)
-            ->exists();
-
-        if (!$esCreador) {
-            return back()->with([
-                'flash' => [
-                    'type' => 'error',
-                    'message' => 'No autorizado',
-                    'data' => null
-                ]
-            ])->setStatusCode(403);
-        }
 
         $curso->update($request->all());
 
@@ -263,24 +255,7 @@ class CursoController extends Controller
      */
     public function deleteCurso(Request $request, $id)
     {
-
-        $userId = $request->user()->id;
         $curso = Curso::findOrFail($id);
-
-        $esCreador = DB::table('ensena_curso_user')
-            ->where('curso_id', $curso)
-            ->where('user_id', $userId)
-            ->exists();
-
-        if (!$esCreador) {
-            return back()->with([
-                'flash' => [
-                    'type' => 'error',
-                    'message' => 'No autorizado',
-                    'data' => null
-                ]
-            ])->setStatusCode(403);
-        }
 
         $curso->delete();
 
