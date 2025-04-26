@@ -1,99 +1,140 @@
-import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
-import Select from "react-select";
-import axios from "axios";
-import { toast } from "react-toastify";
+import { useForm } from "@inertiajs/react";
+import HeadingSmall from "./heading-small";
+import { Button } from "./ui/button";
+import { Input } from "./ui/input";
+import { Label } from '@/components/ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
+import { Textarea } from "@headlessui/react";
+import Toastify from 'toastify-js';
+import 'toastify-js/src/toastify.css';
 
-export default function CrearCursoForm() {
-    const { register, handleSubmit, setValue, formState: { errors } } = useForm();
-    const [instituciones, setInstituciones] = useState([]);
-    const [isAuthorized, setIsAuthorized] = useState(false);
+interface FormCursoProps {
+    [key: string]: string | undefined;
+    nombre: string;
+    descripcion: string;
+    institucion_id: string;
+    fecha_inicio?: string;
+}
 
-    useEffect(() => {
-        // Simular verificación de permisos del usuario
-        const userHasPermission = true; // Cambiar lógica 
-        setIsAuthorized(userHasPermission);
+interface FormCursoComponentProps {
+    instituciones: Array<{
+        id: string;
+        nombre: string;
+    }>;
+}
 
-        axios.get("/api/instituciones")
-            .then(res => {
-                const opciones = res.data.map((inst: { id: number; nombre: string }) => ({
-                    value: inst.id,
-                    label: inst.nombre
-                }));
-                setInstituciones(opciones);
-            })
-            .catch(() => {
-                toast.error("Error al cargar las instituciones");
-            });
-    }, []);
+export default function FormCurso({ instituciones }: FormCursoComponentProps) {
+    const { data, setData, post, processing, reset } = useForm<FormCursoProps>({
+        nombre: '',
+        descripcion: '',
+        institucion_id: '',
+        fecha_inicio: '',
+    });
 
-    const onSubmit = async (data: Record<string, any>) => {
-        try {
-            const response = await axios.post("/api/cursos", data);
-            toast.success("Curso creado exitosamente");
-        } catch (error) {
-            toast.error("Hubo un error al crear el curso");
-        }
+    const showToast = (message: string, isSuccess: boolean) => {
+        Toastify({
+            text: message,
+            duration: 3000,
+            close: true,
+            gravity: "top",
+            position: "right",
+            backgroundColor: isSuccess ? "#4CAF50" : "#F44336",
+            stopOnFocus: true,
+        }).showToast();
     };
 
-    if (!isAuthorized) {
-        return <p className="text-center text-red-600">No tienes permisos para crear cursos.</p>;
-    }
+    const submit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        post(route('cursos.store'), {
+            onSuccess: () => {
+                reset();
+                showToast("Curso creado correctamente", true);
+            },
+            onError: (errors) => {
+                console.error("Error al crear el curso:", errors);
+                showToast("Error al crear el curso", false);
+            },
+        });
+    };
 
     return (
-        <div className="max-w-md mx-auto p-6">
-            <h1 className="text-2xl font-bold text-center text-blue-900 mb-6">Crear Curso</h1>
+        <div className="border-b-blue-500 rounded-4xl p-6 shadow-xl dark:text-white">
+            <div className="shadow-md space-y-4 rounded-3xl px-8 pt-6 pb-8 mb-4 w-full max-w-md dark:bg-black">
+                
+                <h1 className="text-4xl justify-center items-center flex text-[#001C59] font-semibold">Crear Curso</h1>
+                <p>Complete la información requerida para registrar un nuevo curso</p>
+                <form className="space-y-4 dark:text-white" onSubmit={submit}>
+                    <div className="mb-4">
+                        <Label htmlFor="nombre">Nombre del curso:</Label>
+                        <Input
+                            type="text"
+                            id="nombre"
+                            className="mt-1 block w-full border-blue-600"
+                            placeholder="Introduzca el nombre del curso"
+                            value={data.nombre}
+                            onChange={(e) => setData('nombre', e.target.value)}
+                            required
+                        />
+                    </div>
 
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-                <div>
-                    <label className="block text-sm font-medium">Nombre del curso</label>
-                    <input 
-                        type="text" 
-                        {...register("nombre", { required: true })} 
-                        className="w-full border rounded-md p-2" 
-                    />
-                    {errors.nombre && <p className="text-red-500 text-sm">Este campo es obligatorio</p>}
-                </div>
+                    <div className="mb-4">
+                        <Label htmlFor="descripcion">Descripción:</Label>
+                        <Textarea
+                            rows={3}
+                            id="descripcion"
+                            className="mt-1 block w-full border border-blue-600 rounded-md shadow-sm"
+                            placeholder="Descripción detallada del curso"
+                            value={data.descripcion}
+                            onChange={(e) => setData('descripcion', e.target.value)}
+                            required
+                        />
+                    </div>
 
-                <div>
-                    <label className="block text-sm font-medium">Descripción</label>
-                    <textarea 
-                        {...register("descripcion", { required: true })} 
-                        className="w-full border rounded-md p-2 h-24"
-                    ></textarea>
-                    {errors.descripcion && <p className="text-red-500 text-sm">Este campo es obligatorio</p>}
-                </div>
+                    <div className="mb-4">
+                        <Label htmlFor="institucion_id">Institución:</Label>
+                        <Select
+                            value={data.institucion_id}
+                            onValueChange={(value) => setData('institucion_id', value)}
+                        >
+                            <SelectTrigger className="mt-1 block w-full border-blue-600 rounded px-4 py-2">
+                                <SelectValue placeholder="Seleccione una institución" />
+                            </SelectTrigger>
+                            <SelectContent className="bg-blue-400 border border-blue-800 rounded shadow-md shadow-blue-400">
+                                {instituciones.map((institucion) => (
+                                    <SelectItem 
+                                        key={institucion.id} 
+                                        value={institucion.id}
+                                    >
+                                        {institucion.nombre}
+                                    </SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
+                    </div>
 
-                <div>
-                    <label className="block text-sm font-medium">Institución</label>
-                    <Select
-                        options={instituciones}
-                        onChange={(option: { value: number; label: string } | null) => setValue("institucionId", option?.value)}
-                        placeholder="Seleccionar institución"
-                    />
-                    {errors.institucionId && <p className="text-red-500 text-sm">Este campo es obligatorio</p>}
-                    <input 
-                        type="hidden" 
-                        {...register("institucionId", { required: true })}
-                    />
-                </div>
+                    <div className="mb-4">
+                        <Label htmlFor="fecha_inicio">Fecha de inicio (opcional):</Label>
+                        <Input
+                            type="date"
+                            id="fecha_inicio"
+                            className="mt-1 block w-full border-blue-600"
+                            value={data.fecha_inicio}
+                            onChange={(e) => setData('fecha_inicio', e.target.value)}
+                        />
+                    </div>
 
-                <div>
-                    <label className="block text-sm font-medium">Fecha de inicio (opcional)</label>
-                    <input 
-                        type="date" 
-                        {...register("fechaInicio")} 
-                        className="w-full border rounded-md p-2"
-                    />
-                </div>
-
-                <button
-                    type="submit"
-                    className="w-full bg-blue-900 text-white py-2 rounded-md hover:bg-blue-950 transition"
-                >
-                    Crear
-                </button>
-            </form>
+                    <div className="flex items-center justify-center">
+                        <Button 
+                            type="submit" 
+                            className="bg-[#001C59] text-white "
+                            variant={"ghost"}
+                            disabled={processing}
+                        >
+                            {processing ? 'Creando...' : 'Crear curso'}
+                        </Button>
+                    </div>
+                </form>
+            </div>
         </div>
     );
 }

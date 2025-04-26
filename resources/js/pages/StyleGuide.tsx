@@ -51,7 +51,12 @@ export default function StyleGuide() {
                 <h2> Componente Target</h2>
                 <InstitutionTarget props={propsTargetInstitucion} />
                 <FormInstitucion />
-                <CourseCreation />
+                <CourseCreation 
+                    instituciones={[
+                        { id: "1", nombre: "Institución 1" },
+                        { id: "2", nombre: "Institución 2" },
+                    ]}
+                />
             </div>
         </>
     )
