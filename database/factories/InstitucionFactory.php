@@ -2,27 +2,20 @@
 
 namespace Database\Factories;
 
+use App\Models\Institucion;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Institucion>
- */
 class InstitucionFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
-    public function definition(): array
+    protected $model = Institucion::class;
+
+    public function definition()
     {
         return [
-        'nombre' => fake()->company(),
-        'tipo' => fake()->randomElement(['Publico', 'Privado']),
-        'capacidad' => fake()->numberBetween(100, 500),
-        'imagen_perfil' => fake()->imageUrl(200, 200, 'people', true, 'perfil'),
-        'descripcion' => fake()->text(),
-        'user_id' => \App\Models\User::factory(),
+            'nombre' => $this->faker->company(),
+            'tipo' => $this->faker->randomElement(['privado', 'publico']),
+            'capacidad' => $this->faker->numberBetween(50, 500),
+            'user_id' => \App\Models\User::factory(), // Relación con User
         ];
     }
 }

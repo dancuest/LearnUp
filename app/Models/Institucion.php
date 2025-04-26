@@ -3,11 +3,14 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use InstitucionPlan;
 use Plan;
 
 class Institucion extends Model
 {
+    use HasFactory;
+    protected $table = 'instituciones';
     protected $fillable = [
         'nombre',
         'descripcion',

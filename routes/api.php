@@ -1,10 +1,10 @@
 <?php
 
+use App\Http\Controllers\Curso\CursoController;
+use App\Http\Controllers\CursoInscripcionController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\Institution\InstitutionController;
-use App\Http\Controllers\Curso\CursoController;
-use App\Http\Controllers\CursoInscripcionController;
 use App\Http\Controllers\Institution\InstitutionUsersController;
 
 Route::middleware('auth')->group(function () {

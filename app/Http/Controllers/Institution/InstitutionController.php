@@ -154,25 +154,21 @@ class InstitutionController extends Controller
      *      )
      * )
      */
-    public function findAll(Request $request) //modificaciones para busqueda y get
+    public function findAll(Request $request)
     {
         $query = Institucion::query();
 
         if ($request->filled('nombre')) {
-            $query->where('nombre', 'like', '%' . $request->input('nombre') . '%');
+            $query->whereRaw('LOWER(nombre) like ?', ['%' . strtolower($request->input('nombre')) . '%']);
         }
 
         if ($request->has('limit')) {
-            $query->skip($request->input('offset', 0) * $request->input('limit'))
-                ->take($request->input('limit'));
+            $query->skip($request->input('offset', 0) * $request->input('limit'))->take($request->input('limit'));
         }
 
-        return back()->with([
-            'flash' => [
-                'type' => 'success',
-                'message' => 'Instituciones encontradas',
-                'data' => $query->get()
-            ]
+        return response()->json([
+            'data' => $query->get(),
+            'total' => $query->count()
         ]);
     }
 

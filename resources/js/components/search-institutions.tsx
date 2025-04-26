@@ -6,10 +6,13 @@ interface Institution {
     nombre: string;
     descripcion: string;
     imagen_perfil: string;
+    capacidad: number; // Add inscritos to match the Target component's requirements
 }
 
 interface SearchInstitutionsProps {
     onResults: (institutions: Institution[]) => void;
+    limit: number;
+    offset: number;
 }
 
 /**
@@ -18,6 +21,8 @@ interface SearchInstitutionsProps {
  * @componente
  * @param {SearchInstitutionsProps} props - Las propiedades del componente.
  * @param {(results: Institution[]) => void} props.onResults - Función de devolución de llamada para manejar los resultados de la búsqueda.
+ * @param {number} props.limit - Límite de resultados por página.
+ * @param {number} props.offset - Desplazamiento para la paginación.
  * 
  * @returns {JSX.Element} El componente de entrada de búsqueda renderizado.
  * 
@@ -28,7 +33,7 @@ interface SearchInstitutionsProps {
  * 
  * @ejemplo
  * ```tsx
- * <SearchInstitutions onResults={(results) => console.log(results)} />
+ * <SearchInstitutions onResults={(results) => console.log(results)} limit={20} offset={0} />
  * ```
  * 
  * @interno
@@ -39,28 +44,32 @@ interface SearchInstitutionsProps {
  * - Hooks de React: `useState`, `useEffect`, `useRef`.
  * - Componente personalizado `Input` para renderizar el campo de entrada de búsqueda.
  */
-const SearchInstitutions: React.FC<SearchInstitutionsProps> = ({ onResults }) => {
+const SearchInstitutions: React.FC<SearchInstitutionsProps> = ({ onResults, limit, offset }) => {
     const [search, setSearch] = useState<string>('');
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
     const searchInputRef = useRef<HTMLInputElement>(null);
 
     const fetchInstitutions = async (nombre: string = '') => {
+        console.log('Fetching institutions with search term:', nombre);
         try {
             setLoading(true);
-            const response = await fetch(route('institution.findAll') + `?nombre=${nombre}`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            });
+            const response = await fetch(
+                route('institution.findAll') + `?nombre=${nombre}&limit=${limit}&offset=${offset}`,
+                {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                }
+            );
 
             if (!response.ok) {
                 throw new Error('Failed to fetch institutions.');
             }
 
             const data = await response.json();
-            onResults(data);
+            onResults(data.data);
         } catch (err) {
             console.error('Error fetching institutions:', err);
             setError('Failed to fetch institutions.');
@@ -71,8 +80,8 @@ const SearchInstitutions: React.FC<SearchInstitutionsProps> = ({ onResults }) =>
 
     // Solicitud inicial al cargar el componente
     useEffect(() => {
-        fetchInstitutions();
-    }, []);
+        fetchInstitutions(search); // Pass the current search term when offset or limit changes
+    }, [limit, offset, search]);
 
     const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;

@@ -1,95 +1,87 @@
 import React, { useState } from 'react';
-import { Card, CardDescription, CardTitle } from './ui/card';
+import InstitutionTarget from './InstitutionTarget'; // Import the InstitutionTarget component
 import SearchInstitutions from './search-institutions';
+import fondo_usuario from "../../images/fondo-usuario.jpg";
+import icono from "../../images/Item.png";
 
 interface Institution {
     id: number;
     nombre: string;
     descripcion: string;
     imagen_perfil: string;
+    capacidad: number;
 }
 
-/**
- * Componente funcional de React que muestra una lista de instituciones educativas.
- * 
- * @component
- * 
- * @returns {JSX.Element} Un componente que renderiza un título, un buscador de instituciones
- * y una lista de tarjetas con información de las instituciones encontradas.
- * 
- * @description
- * Este componente utiliza un estado local para almacenar las instituciones obtenidas
- * a través del componente `SearchInstitutions`. Cada institución se muestra en una tarjeta
- * que incluye una imagen de fondo, un título y una descripción truncada.
- * 
- * - Si no hay instituciones disponibles, se muestra un mensaje indicando que no hay datos.
- * - La descripción de cada institución se trunca a un número máximo de palabras definido
- * por la función `truncateDescription`.
- * 
- * @function truncateDescription
- * @param {string} description - La descripción completa de la institución.
- * @param {number} maxWords - El número máximo de palabras permitidas en la descripción truncada.
- * @returns {string} La descripción truncada con un sufijo de puntos suspensivos (`...`) si excede el límite.
- * 
- * @example
- * ```tsx
- * <ListInstitutions />
- * ```
- * 
- * @remarks
- * - Este componente utiliza clases de Tailwind CSS para el diseño y estilos.
- * - Las tarjetas tienen efectos de hover para mejorar la experiencia del usuario.
- * 
- * @see {@link SearchInstitutions} para el componente de búsqueda.
- * @see {@link Institution} para la estructura de datos de las instituciones.
- */
 const ListInstitutions: React.FC = () => {
     const [institutions, setInstitutions] = useState<Institution[]>([]);
+    const [page, setPage] = useState<number>(0);
+    const [hasMore, setHasMore] = useState<boolean>(true);
+    const limit = 9;
 
-    const truncateDescription = (description: string, maxWords: number): string => {
-        const words = description.split(' ');
-        return words.length > maxWords ? words.slice(0, maxWords).join(' ') + '...' : description;
+    const handlePageChange = (newPage: number) => {
+        if (newPage >= 0) {
+            setPage(newPage);
+        }
+    };
+
+    const handleResults = (results: Institution[]) => {
+        setInstitutions(results);
+        setHasMore(results.length === limit);
     };
 
     return (
         <div>
-            <h1 className="flex text-3xl font-extrabold justify-center items-center m-4 dark:text-white sm:text-4xl  lg:text-5xl">
+            <h1 className="flex text-3xl font-extrabold justify-center items-center m-4 dark:text-white sm:text-4xl lg:text-5xl">
                 Establecimientos Educativos
             </h1>
-            <SearchInstitutions onResults={setInstitutions} />
+            <SearchInstitutions
+                onResults={handleResults}
+                limit={limit}
+                offset={page}
+            />
             {
                 institutions && institutions.length > 0 ? (
-                    <div className='w-full flex justify-evenly '>
-                        <ul className="text-black grid grid-cols-1 mt-2 mb-4 gap-4 md:grid-cols-2  sm:gap-16 lg:grid-cols-3 ">
+                    <div className='w-full flex flex-col items-center'>
+                        <ul className="text-black grid grid-cols-1 mt-2 mb-4 gap-4 md:grid-cols-2 sm:gap-16 lg:grid-cols-3">
                             {institutions.map((institution) => (
-                                <Card
+                                <InstitutionTarget
                                     key={institution.id}
-                                    className="group relative w-[300px] h-[200px] rounded-md overflow-hidden transition-shadow hover:shadow-xl"
-                                >
-                                    <div
-                                        className="absolute inset-0 bg-cover bg-center transition-transform duration-300 group-hover:scale-105"
-                                        style={{
-                                            backgroundImage: `url(${institution.imagen_perfil})`,
-                                        }}
-                                    ></div>
-                                    <div className="absolute inset-0 bg-black opacity-30 group-hover:opacity-60 transition-opacity duration-300"></div>
-                                    <div className=" z-10 p-4 pt-0 text-white h-full flex flex-col justify-start items-start">
-                                        <CardTitle className="text-lg font-bold">{institution.nombre}</CardTitle>
-                                        <CardDescription
-                                            className="text-sm text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300 mt-2"
-                                        >
-                                            {truncateDescription(institution.descripcion, 30)}
-                                        </CardDescription>
-                                    </div>
-                                </Card>
+                                    props={{
+                                        backgroundImage: fondo_usuario,
+                                        icon: institution.imagen_perfil ? institution.imagen_perfil : icono,
+                                        name: institution.nombre,
+                                        enrolled: institution.capacidad,
+                                    }}
+                                />
                             ))}
                         </ul>
+                        <div className="w-full flex justify-center mt-4 mb-4">
+                            <button
+                                onClick={() => handlePageChange(page - 1)}
+                                disabled={page === 0}
+                                className="disabled:opacity-50 hover:cursor-pointer disabled:cursor-auto"
+                            >
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="size-6">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="m18.75 4.5-7.5 7.5 7.5 7.5m-6-15L5.25 12l7.5 7.5" />
+                                </svg>
+                            </button>
+                            <span className="px-4 py-2">{`${page + 1}`}</span>
+                            <button
+                                onClick={() => handlePageChange(page + 1)}
+                                disabled={!hasMore && institutions.length < limit}
+                                className="disabled:opacity-50 hover:cursor-pointer disabled:cursor-auto"
+                            >
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="m5.25 4.5 7.5 7.5-7.5 7.5m6-15 7.5 7.5-7.5 7.5" />
+                                </svg>
+                            </button>
+                        </div>
                     </div>
                 ) : (
                     <p>No hay instituciones</p>
                 )
             }
-        </div >
+        </div>
     );
 };
 
