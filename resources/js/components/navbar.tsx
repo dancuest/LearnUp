@@ -20,8 +20,7 @@ interface PageProps extends InertiaPageProps {
     };
 }
 
-export default function Navbar({ props }: { props: NavbarProps }) {
-    const { profileImage }: NavbarProps = props;
+export default function Navbar() {
     const { props: pageProps } = usePage<PageProps>(); // Usa la interfaz extendida
     const user = pageProps.auth?.user; // Obtén el usuario autenticado
     const [isLoading, setIsLoading] = useState(true);
