@@ -4,7 +4,7 @@ import Navbar from "@/components/navbar";
 import UploadImageButton from "@/components/Buttons/upload-image-button";
 import FormInstitucion from "@/components/form-institucion";
 import ListInstitutions from "@/components/list-institutions";
-import CourseCreationForm from "@/components/createCurse";
+import CursosList from "@/components/modifyCourse"; // Cambiado el nombre a mayúscula
 
 export default function StyleGuide() {
     const propsNavbar = {
@@ -15,6 +15,41 @@ export default function StyleGuide() {
         icon: "/imagenes/ItemUniversidad.png",
         name: "Universidad del Valle",
         enrolled: 199,
+    };
+
+    // Datos de ejemplo para cursos e instituciones
+    const exampleCursos = [
+        {
+            id: "1",
+            nombre: "Historia Antigua",
+            descripcion: "Un estudio de las civilizaciones antiguas",
+            institucion_id: "1",
+            fecha_inicio: "2023-09-01"
+        },
+        {
+            id: "2",
+            nombre: "Introducción a la programación",
+            descripcion: "Fundamentos de programación para principiantes",
+            institucion_id: "1",
+            fecha_inicio: "2023-10-15"
+        }
+    ];
+
+    const exampleInstituciones = [
+        {
+            id: "1",
+            nombre: "Universidad del Valle"
+        },
+        {
+            id: "2",
+            nombre: "Universidad Nacional"
+        }
+    ];
+
+    // Función para manejar la actualización después de editar/eliminar
+    const handleCursoUpdated = () => {
+        console.log("Lista de cursos actualizada");
+        // Aquí podrías hacer una llamada a tu API para refrescar los datos
     };
 
     return (
@@ -54,12 +89,16 @@ export default function StyleGuide() {
                     numSlide={2}>
                 </Carrusel>
                 <ListInstitutions />
-                <CourseCreationForm 
-                    instituciones={[
-                        { id: "1", nombre: "Institución 1" },
-                        { id: "2", nombre: "Institución 2" },
-                    ]}
-                />
+                
+                {/* Sección para el componente de cursos */}
+                <div className="p-6 lg:p-8 border-t mt-8">
+                    <h2 className="text-2xl font-semibold mb-6">Gestión de Cursos</h2>
+                    <CursosList 
+                        cursos={exampleCursos} 
+                        instituciones={exampleInstituciones} 
+                        onCursoUpdated={handleCursoUpdated} 
+                    />
+                </div>
             </div>
         </>
     )
