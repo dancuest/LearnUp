@@ -19,6 +19,7 @@ Route::prefix('institution')->group(function () {
     Route::get('{id}', [InstitutionController::class, 'findById'])->name('institution.findById');
     Route::get('courses', [CursoController::class, 'findAllCursos'])->name('curso.findAll');
     Route::get('course/{id}', [CursoController::class, 'findById'])->name('curso.findById');
+    Route::get('students/number/{institucion_id}', [InstitutionUsersController::class, 'getNumberOfStudentsByInstitution'])->name('institution.getNumberOfStudentsByInstitution');
 
     Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('create', [InstitutionController::class, 'create'])->name('institution.create');
@@ -27,6 +28,7 @@ Route::prefix('institution')->group(function () {
 
         Route::middleware(['validar.creador.institucion'])->group(function () {
             Route::post('{institution_id}/course', [CursoController::class, 'createCurso'])->name('curso.createCurso');
+            Route::get('users', [InstitutionUsersController::class, 'getUsersByInstitution'])->name('institution.findAllUsers');
         });
 
         Route::middleware(['validar.docente.curso'])->group(function () {
@@ -35,8 +37,10 @@ Route::prefix('institution')->group(function () {
         });
 
         Route::prefix('user')->group(function () {
+            Route::get('find', [InstitutionUsersController::class, 'isUserInInstitution'])->name('institution.findUser');
             Route::post('add', [InstitutionUsersController::class, 'addUserToInstitution'])->name('institution.addUser');
             Route::delete('remove', [InstitutionUsersController::class, 'removeUserFromInstitution'])->name('institution.removeUser');
+            Route::get('findInstitutionsByUser', [InstitutionUsersController::class, 'getInstitutionsByUser'])->name('institution.findInstitutionsByUser');
         });
     });
 });

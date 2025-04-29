@@ -21,13 +21,12 @@ interface PageProps extends InertiaPageProps {
 }
 
 export default function Navbar() {
-    const { props: pageProps } = usePage<PageProps>(); // Usa la interfaz extendida
-    const user = pageProps.auth?.user; // Obtén el usuario autenticado
+    const { props: pageProps } = usePage<PageProps>();
+    const user = pageProps.auth?.user;
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        setIsLoading(false); // Ya no es necesario verificar manualmente
-        console.log("user", user);
+        setIsLoading(false);
     }, []);
 
     return (
