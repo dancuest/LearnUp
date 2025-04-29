@@ -1,12 +1,96 @@
+import { usePage } from "@inertiajs/react";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { PageProps } from "@/types";
+
 interface InstitutionTargetProps {
     backgroundImage: string | File;
     icon: string;
     name: string;
     enrolled: number;
+    id: number;
 }
 
 export default function InstitutionTarget({ props }: { props: InstitutionTargetProps }) {
-    const { backgroundImage, icon, name, enrolled }: InstitutionTargetProps = props;
+    const { backgroundImage, icon, name, enrolled, id }: InstitutionTargetProps = props;
+    const { props: pageProps } = usePage<PageProps>();
+    const user = pageProps.auth?.user;
+
+    const [isEnrolled, setIsEnrolled] = useState(false);
+    const [totalEnrolled, setTotalEnrolled] = useState(0);
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        const checkEnrollment = async () => {
+            if (user?.id) {
+                try {
+                    const response = await axios.get(route('institution.findUser'), {
+                        params: {
+                            user_id: user.id,
+                            institucion_id: id,
+                        },
+                        headers: {
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content'),
+                        },
+                    });
+                    setIsEnrolled(response.data.isEnrolled);
+                } catch (error) {
+                    console.error('Error al verificar la inscripción:', error);
+                    setIsEnrolled(false);
+                } finally {
+                    setIsLoading(false);
+                }
+            } else {
+                setIsLoading(false);
+            }
+        };
+
+        const totalEnrolled = async () => {
+            try {
+                const response = await axios.get(
+                    route('institution.getNumberOfStudentsByInstitution', { institucion_id: id }),
+                    {
+                        headers: {
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content'),
+                        },
+                    }
+                );
+                console.log('Total de inscritos:', response.data);
+                setTotalEnrolled(response.data);
+            } catch (error) {
+                console.error('Error al obtener el total de inscritos:', error);
+                setTotalEnrolled(0);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        totalEnrolled();
+        checkEnrollment();
+    }, [user?.id, id]);
+
+    const ingresar = async () => {
+        await axios.post(route('institution.addUser'), {
+            user_id: user?.id,
+            institucion_id: id,
+        }, {
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content'),
+                'Content-Type': 'application/json',
+            },
+        })
+            .then(() => {
+                setIsEnrolled(true);
+                setTotalEnrolled((prev) => prev + 1);
+            })
+            .catch((error) => {
+                console.error('Error al agregar el usuario:', error.response?.data?.message || error.message);
+            });
+    };
+
+    if (isLoading) {
+        return <></>;
+    }
 
     return (
         <div className="w-[300px] bg-white dark:bg-gray-700 rounded-lg overflow-hidden shadow-lg flex flex-col">
@@ -24,10 +108,15 @@ export default function InstitutionTarget({ props }: { props: InstitutionTargetP
             </div>
             <div className="flex w-full h-fit flex-col items-center justify-center text-center mb-4 mt-2 px-3">
                 <h2 className="flex justify-around text-xl font-semibold text-gray-900 dark:text-gray-100">{name}</h2>
-                <p className="text-gray-700 dark:text-gray-300 text-sm">Número de Inscritos: {enrolled}</p>
-                <button className="bg-blue-700 dark:bg-blue-600 text-white text-sm mt-2 px-6 py-2 rounded-lg shadow-md hover:bg-blue-800 dark:hover:bg-blue-700 transition">
-                    Inscribirse
-                </button>
+                <p className="text-gray-700 dark:text-gray-300 text-sm">Capacidad: {enrolled}</p>
+                <p className="text-gray-700 dark:text-gray-300 text-sm">Número de Inscritos: {totalEnrolled}</p>
+                {!isEnrolled && user && (
+                    <button
+                        onClick={ingresar}
+                        className="bg-blue-700 dark:bg-blue-600 text-white text-sm mt-2 px-6 py-2 rounded-lg shadow-md hover:bg-blue-800 dark:hover:bg-blue-700 transition">
+                        Inscribirse
+                    </button>
+                )}
             </div>
         </div>
     );

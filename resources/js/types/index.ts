@@ -1,4 +1,5 @@
 import { LucideIcon } from 'lucide-react';
+import { PageProps as InertiaPageProps } from "@inertiajs/core";
 
 export interface Auth {
     user: User;
@@ -32,9 +33,10 @@ export interface User {
     id: number;
     name: string;
     email: string;
-    avatar?: string;
-    email_verified_at: string | null;
-    created_at: string;
-    updated_at: string;
-    [key: string]: unknown; // This allows for additional properties...
+    imagen_perfil?: string;
+}
+export interface PageProps extends InertiaPageProps {
+    auth?: {
+        user?: User;
+    };
 }
