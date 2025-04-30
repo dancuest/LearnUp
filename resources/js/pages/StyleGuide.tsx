@@ -46,10 +46,7 @@ export default function StyleGuide() {
                 <FormInstitucion />
 
                 <CourseCreation 
-                    instituciones={[
-                        { id: "1", nombre: "Institución 1" },
-                        { id: "2", nombre: "Institución 2" },
-                    ]}
+                    institucion_id="12345" 
                 />
                 <Carrusel className="w-full max-w-[1100px] h-[350px]"
                     imagenes={[

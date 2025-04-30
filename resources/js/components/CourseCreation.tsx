@@ -1,34 +1,28 @@
 import { useForm } from "@inertiajs/react";
-import HeadingSmall from "./heading-small";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Label } from '@/components/ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
-import { Textarea } from "@headlessui/react";
 import Toastify from 'toastify-js';
 import 'toastify-js/src/toastify.css';
 
 interface FormCursoProps {
-    [key: string]: string | undefined;
+    [key: string]: string | undefined | number;
     nombre: string;
     descripcion: string;
-    institucion_id: string;
-    fecha_inicio?: string;
+    costo: number;
+    max_alumnos: number;
 }
 
 interface FormCursoComponentProps {
-    instituciones: Array<{
-        id: string;
-        nombre: string;
-    }>;
+    institucion_id: string;
 }
 
-export default function FormCurso({ instituciones }: FormCursoComponentProps) {
+export default function FormCurso({ institucion_id }: FormCursoComponentProps) {
     const { data, setData, post, processing, reset } = useForm<FormCursoProps>({
         nombre: '',
         descripcion: '',
-        institucion_id: '',
-        fecha_inicio: '',
+        costo: 0,
+        max_alumnos: 0,
     });
 
     const showToast = (message: string, isSuccess: boolean) => {
@@ -45,7 +39,7 @@ export default function FormCurso({ instituciones }: FormCursoComponentProps) {
 
     const submit = async (e: React.FormEvent) => {
         e.preventDefault();
-        post(route('cursos.store'), {
+        post(route('createCurso', { institucion_id }), {
             onSuccess: () => {
                 reset();
                 showToast("Curso creado correctamente", true);
@@ -78,12 +72,12 @@ export default function FormCurso({ instituciones }: FormCursoComponentProps) {
                     </div>
 
                     <div className="mb-4">
-                        <Label htmlFor="descripcion">Descripción:</Label>
-                        <Textarea
-                            rows={3}
+                        <Label htmlFor="descripcion">Descripción del curso:</Label>
+                        <Input
+                            type="text"
                             id="descripcion"
-                            className="mt-1 block w-full border border-blue-600 rounded-md shadow-sm"
-                            placeholder="Descripción detallada del curso"
+                            className="mt-1 block w-full border-blue-600"
+                            placeholder="Ingrese una descripción del curso"
                             value={data.descripcion}
                             onChange={(e) => setData('descripcion', e.target.value)}
                             required
@@ -91,35 +85,28 @@ export default function FormCurso({ instituciones }: FormCursoComponentProps) {
                     </div>
 
                     <div className="mb-4">
-                        <Label htmlFor="institucion_id">Institución:</Label>
-                        <Select
-                            value={data.institucion_id}
-                            onValueChange={(value) => setData('institucion_id', value)}
-                        >
-                            <SelectTrigger className="mt-1 block w-full border-blue-600 rounded px-4 py-2">
-                                <SelectValue placeholder="Seleccione una institución" />
-                            </SelectTrigger>
-                            <SelectContent className="bg-blue-400 border border-blue-800 rounded shadow-md shadow-blue-400">
-                                {instituciones.map((institucion) => (
-                                    <SelectItem 
-                                        key={institucion.id} 
-                                        value={institucion.id}
-                                    >
-                                        {institucion.nombre}
-                                    </SelectItem>
-                                ))}
-                            </SelectContent>
-                        </Select>
+                        <Label htmlFor="costo">Costo del curso:</Label>
+                        <Input
+                            type="number"
+                            id="costo"
+                            className="mt-1 block w-full border-blue-600"
+                            placeholder="Ingrese el costo del curso"
+                            value={data.costo}
+                            onChange={(e) => setData('costo', parseFloat(e.target.value))}
+                            required
+                        />
                     </div>
 
                     <div className="mb-4">
-                        <Label htmlFor="fecha_inicio">Fecha de inicio (opcional):</Label>
+                        <Label htmlFor="max_alumnos">Cantidad máxima de alumnos:</Label>
                         <Input
-                            type="date"
-                            id="fecha_inicio"
+                            type="number"
+                            id="max_alumnos"
                             className="mt-1 block w-full border-blue-600"
-                            value={data.fecha_inicio}
-                            onChange={(e) => setData('fecha_inicio', e.target.value)}
+                            placeholder="Ingrese la cantidad máxima de alumnos"
+                            value={data.max_alumnos}
+                            onChange={(e) => setData('max_alumnos', parseInt(e.target.value))}
+                            required
                         />
                     </div>
 
