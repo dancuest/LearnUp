@@ -111,13 +111,13 @@ class InstitutionController extends Controller
 
     public function findById($id)
     {
-        return back()->with([
-            'flash' => [
-                'type' => 'success',
-                'message' => 'Institución encontrada',
-                'data' => Institucion::findOrFail($id) // <<-- Datos aquí
-            ]
-        ]);
+        $institucion = Institucion::find($id);
+
+        if (!$institucion) {
+            return response()->json(['message' => 'Institución no encontrada'], 404);
+        }
+
+        return response()->json($institucion);
     }
 
     /**

@@ -7,6 +7,10 @@ Route::get('/', function () {
     return Inertia::render('homepage');
 })->name('home');
 
+Route::get('/institucion/{id}', function ($id) {
+    return Inertia::render('Institution', ['id' => $id]); // Updated to match React component name
+});
+
 Route::get('styles', function () {
     return Inertia::render('StyleGuide');
 })->name('styles');
@@ -16,12 +20,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return Inertia::render('dashboard');
     })->name('dashboard');
 });
-
-Route::get('institution/{institution}', function ($institution) {
-    return Inertia::render('institucion/Institution', [
-        'institution' => $institution,
-    ]);
-})->name('institution');
 
 require __DIR__ . '/api.php';
 require __DIR__ . '/settings.php';
