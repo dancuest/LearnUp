@@ -6,6 +6,409 @@
         "version": "1.0.0"
     },
     "paths": {
+        "/auth/login": {
+            "get": {
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Show login page",
+                "description": "Display the login page.",
+                "operationId": "showLoginPage",
+                "responses": {
+                    "200": {
+                        "description": "Login page displayed"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Authenticate user",
+                "description": "Authenticate the user and start a session.",
+                "operationId": "loginUser",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "example": "user@example.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "password123"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "User authenticated successfully"
+                    },
+                    "401": {
+                        "description": "Invalid credentials"
+                    }
+                }
+            }
+        },
+        "/auth/logout": {
+            "post": {
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Logout user",
+                "description": "End the user's session.",
+                "operationId": "logoutUser",
+                "responses": {
+                    "200": {
+                        "description": "User logged out successfully"
+                    }
+                }
+            }
+        },
+        "/auth/confirm-password": {
+            "get": {
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Show confirm password page",
+                "description": "Display the confirm password page.",
+                "operationId": "showConfirmPasswordPage",
+                "responses": {
+                    "200": {
+                        "description": "Confirm password page displayed"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Confirm password",
+                "description": "Confirm the user's password.",
+                "operationId": "confirmPassword",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "password"
+                                ],
+                                "properties": {
+                                    "password": {
+                                        "type": "string",
+                                        "example": "password123"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Password confirmed successfully"
+                    },
+                    "401": {
+                        "description": "Invalid password"
+                    }
+                }
+            }
+        },
+        "/auth/email/verification-notification": {
+            "post": {
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Send email verification notification",
+                "description": "Send a new email verification notification to the user.",
+                "operationId": "sendEmailVerificationNotification",
+                "responses": {
+                    "200": {
+                        "description": "Verification link sent successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "verification-link-sent"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "User already verified"
+                    }
+                }
+            }
+        },
+        "/auth/email/verify": {
+            "get": {
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Show email verification prompt",
+                "description": "Display the email verification prompt page.",
+                "operationId": "showEmailVerificationPrompt",
+                "responses": {
+                    "200": {
+                        "description": "Email verification prompt displayed"
+                    },
+                    "302": {
+                        "description": "Redirect to dashboard if already verified"
+                    }
+                }
+            }
+        },
+        "/auth/reset-password/{token}": {
+            "get": {
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Show password reset page",
+                "description": "Display the password reset page.",
+                "operationId": "showPasswordResetPage",
+                "parameters": [
+                    {
+                        "name": "token",
+                        "in": "path",
+                        "description": "Password reset token",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "abc123"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Password reset page displayed"
+                    }
+                }
+            }
+        },
+        "/auth/reset-password": {
+            "post": {
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Reset password",
+                "description": "Reset the user's password.",
+                "operationId": "resetPassword",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "password",
+                                    "password_confirmation",
+                                    "token"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "example": "user@example.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "newpassword123"
+                                    },
+                                    "password_confirmation": {
+                                        "type": "string",
+                                        "example": "newpassword123"
+                                    },
+                                    "token": {
+                                        "type": "string",
+                                        "example": "abc123"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Password reset successfully"
+                    },
+                    "400": {
+                        "description": "Validation error"
+                    }
+                }
+            }
+        },
+        "/auth/forgot-password": {
+            "get": {
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Show password reset link request page",
+                "description": "Display the password reset link request page.",
+                "operationId": "showPasswordResetLinkRequestPage",
+                "responses": {
+                    "200": {
+                        "description": "Password reset link request page displayed"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Send password reset link",
+                "description": "Send a password reset link to the user's email.",
+                "operationId": "sendPasswordResetLink",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "example": "user@example.com"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Password reset link sent successfully"
+                    },
+                    "400": {
+                        "description": "Invalid email address"
+                    }
+                }
+            }
+        },
+        "/auth/register": {
+            "get": {
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Show registration page",
+                "description": "Display the registration page.",
+                "operationId": "showRegistrationPage",
+                "responses": {
+                    "200": {
+                        "description": "Registration page displayed"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Register a new user",
+                "description": "Register a new user and log them in.",
+                "operationId": "registerUser",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "email",
+                                    "password",
+                                    "password_confirmation"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "John Doe"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "example": "user@example.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "password123"
+                                    },
+                                    "password_confirmation": {
+                                        "type": "string",
+                                        "example": "password123"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "User registered successfully"
+                    },
+                    "400": {
+                        "description": "Validation error"
+                    }
+                }
+            }
+        },
+        "/auth/email/verify/{id}/{hash}": {
+            "get": {
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Verify email address",
+                "description": "Mark the authenticated user's email address as verified.",
+                "operationId": "verifyEmail",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "User ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    },
+                    {
+                        "name": "hash",
+                        "in": "path",
+                        "description": "Email verification hash",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "abc123"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Email verified successfully"
+                    },
+                    "400": {
+                        "description": "Invalid verification link"
+                    }
+                }
+            }
+        },
         "/institution/{institution}/course": {
             "post": {
                 "tags": [
@@ -310,6 +713,210 @@
                 }
             }
         },
+        "/courses/{curso}/inscripcion": {
+            "post": {
+                "tags": [
+                    "curso"
+                ],
+                "summary": "Inscribe user in a course",
+                "description": "Inscribe the authenticated user in the specified course.",
+                "operationId": "inscribeUserInCourse",
+                "parameters": [
+                    {
+                        "name": "curso",
+                        "in": "path",
+                        "description": "ID of the course",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Inscription successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Inscripción exitosa"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "User already enrolled in the course"
+                    },
+                    "402": {
+                        "description": "Payment required"
+                    }
+                }
+            }
+        },
+        "/courses/{curso}/students": {
+            "get": {
+                "tags": [
+                    "curso"
+                ],
+                "summary": "Get all students in a course",
+                "description": "Retrieve a list of all students enrolled in the specified course.",
+                "operationId": "getAllStudentsInCourse",
+                "parameters": [
+                    {
+                        "name": "curso",
+                        "in": "path",
+                        "description": "ID of the course",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    },
+                    {
+                        "name": "nombre",
+                        "in": "query",
+                        "description": "Filter students by name",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "example": "John"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of students",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer",
+                                                "example": 1
+                                            },
+                                            "name": {
+                                                "type": "string",
+                                                "example": "John Doe"
+                                            },
+                                            "email": {
+                                                "type": "string",
+                                                "example": "john@example.com"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/images": {
+            "post": {
+                "tags": [
+                    "images"
+                ],
+                "summary": "Store image",
+                "description": "Upload an image to S3 and update the database.",
+                "operationId": "storeImage",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "file",
+                                    "table",
+                                    "row_id",
+                                    "column"
+                                ],
+                                "properties": {
+                                    "file": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    },
+                                    "table": {
+                                        "type": "string",
+                                        "example": "users"
+                                    },
+                                    "row_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "column": {
+                                        "type": "string",
+                                        "example": "profile_picture"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Image uploaded successfully"
+                    },
+                    "400": {
+                        "description": "Validation error"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "images"
+                ],
+                "summary": "Delete image",
+                "description": "Delete an image from S3 and update the database.",
+                "operationId": "deleteImage",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "table",
+                                    "row_id",
+                                    "column"
+                                ],
+                                "properties": {
+                                    "table": {
+                                        "type": "string",
+                                        "example": "users"
+                                    },
+                                    "row_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "column": {
+                                        "type": "string",
+                                        "example": "profile_picture"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Image deleted successfully"
+                    },
+                    "400": {
+                        "description": "Validation error"
+                    }
+                }
+            }
+        },
         "/institution/create": {
             "post": {
                 "tags": [
@@ -610,16 +1217,459 @@
                     }
                 }
             }
+        },
+        "/institutions/users/add": {
+            "post": {
+                "tags": [
+                    "institucion"
+                ],
+                "summary": "Add user to institution",
+                "description": "Add a user to the specified institution.",
+                "operationId": "addUserToInstitution",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "user_id",
+                                    "institucion_id"
+                                ],
+                                "properties": {
+                                    "user_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "institucion_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "User added successfully"
+                    },
+                    "400": {
+                        "description": "User already in institution"
+                    },
+                    "403": {
+                        "description": "Unauthorized"
+                    }
+                }
+            }
+        },
+        "/institutions/users/remove": {
+            "delete": {
+                "tags": [
+                    "institucion"
+                ],
+                "summary": "Remove user from institution",
+                "description": "Remove a user from the specified institution.",
+                "operationId": "removeUserFromInstitution",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "user_id",
+                                    "institucion_id"
+                                ],
+                                "properties": {
+                                    "user_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "institucion_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "User removed successfully"
+                    },
+                    "403": {
+                        "description": "Unauthorized"
+                    }
+                }
+            }
+        },
+        "/institutions/{institucion_id}/users": {
+            "get": {
+                "tags": [
+                    "institucion"
+                ],
+                "summary": "Get users by institution",
+                "description": "Retrieve all users in the specified institution.",
+                "operationId": "getUsersByInstitution",
+                "parameters": [
+                    {
+                        "name": "institucion_id",
+                        "in": "path",
+                        "description": "ID of the institution",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of users",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer",
+                                                "example": 1
+                                            },
+                                            "name": {
+                                                "type": "string",
+                                                "example": "John Doe"
+                                            },
+                                            "email": {
+                                                "type": "string",
+                                                "example": "john@example.com"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/institutions/users/check": {
+            "post": {
+                "tags": [
+                    "institucion"
+                ],
+                "summary": "Check user in institution",
+                "description": "Check if a user belongs to the specified institution.",
+                "operationId": "isUserInInstitution",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "user_id",
+                                    "institucion_id"
+                                ],
+                                "properties": {
+                                    "user_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "institucion_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "User enrollment status",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "isEnrolled": {
+                                            "type": "boolean",
+                                            "example": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users/{user_id}/institutions": {
+            "get": {
+                "tags": [
+                    "institucion"
+                ],
+                "summary": "Get institutions by user",
+                "description": "Retrieve all institutions a user belongs to.",
+                "operationId": "getInstitutionsByUser",
+                "parameters": [
+                    {
+                        "name": "user_id",
+                        "in": "path",
+                        "description": "ID of the user",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of institutions",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer",
+                                                "example": 1
+                                            },
+                                            "nombre": {
+                                                "type": "string",
+                                                "example": "Univalle"
+                                            },
+                                            "tipo": {
+                                                "type": "string",
+                                                "example": "publica"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/institutions/{institucion_id}/students/count": {
+            "get": {
+                "tags": [
+                    "institucion"
+                ],
+                "summary": "Get number of students in institution",
+                "description": "Retrieve the number of students in the specified institution.",
+                "operationId": "getNumberOfStudentsByInstitution",
+                "parameters": [
+                    {
+                        "name": "institucion_id",
+                        "in": "path",
+                        "description": "ID of the institution",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Number of students",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "count": {
+                                            "type": "integer",
+                                            "example": 150
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/settings/password": {
+            "get": {
+                "tags": [
+                    "settings"
+                ],
+                "summary": "Show password settings page",
+                "description": "Display the user's password settings page.",
+                "operationId": "showPasswordSettingsPage",
+                "responses": {
+                    "200": {
+                        "description": "Password settings page displayed"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "settings"
+                ],
+                "summary": "Update password",
+                "description": "Update the user's password.",
+                "operationId": "updatePassword",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "current_password",
+                                    "password",
+                                    "password_confirmation"
+                                ],
+                                "properties": {
+                                    "current_password": {
+                                        "type": "string",
+                                        "example": "oldpassword123"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "newpassword123"
+                                    },
+                                    "password_confirmation": {
+                                        "type": "string",
+                                        "example": "newpassword123"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Password updated successfully"
+                    },
+                    "400": {
+                        "description": "Validation error"
+                    }
+                }
+            }
+        },
+        "/settings/profile": {
+            "get": {
+                "tags": [
+                    "settings"
+                ],
+                "summary": "Show profile settings page",
+                "description": "Display the user's profile settings page.",
+                "operationId": "showProfileSettingsPage",
+                "responses": {
+                    "200": {
+                        "description": "Profile settings page displayed"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "settings"
+                ],
+                "summary": "Update profile",
+                "description": "Update the user's profile settings.",
+                "operationId": "updateProfile",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "email"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "John Doe"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "example": "user@example.com"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Profile updated successfully"
+                    },
+                    "400": {
+                        "description": "Validation error"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "settings"
+                ],
+                "summary": "Delete account",
+                "description": "Delete the user's account.",
+                "operationId": "deleteAccount",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "password"
+                                ],
+                                "properties": {
+                                    "password": {
+                                        "type": "string",
+                                        "example": "password123"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Account deleted successfully"
+                    },
+                    "400": {
+                        "description": "Validation error"
+                    }
+                }
+            }
         }
     },
     "tags": [
+        {
+            "name": "auth",
+            "description": "auth"
+        },
         {
             "name": "curso",
             "description": "curso"
         },
         {
+            "name": "images",
+            "description": "images"
+        },
+        {
             "name": "institucion",
             "description": "institucion"
+        },
+        {
+            "name": "settings",
+            "description": "settings"
         }
     ]
 }

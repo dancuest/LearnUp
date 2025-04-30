@@ -6,15 +6,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Institucion;
 
-/**
- * OA\Info
- * (
- *      title = "Api LearnUp Documentation",
- *      version = "1.0.0",
- *      description = "LearnUp project Documentation",
- *  )
- */
-
 class InstitutionController extends Controller
 {
 

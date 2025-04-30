@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Models\InstitucionPlan as ModelsInstitucionPlan;
+use App\Models\Plan as ModelsPlan;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use InstitucionPlan;
@@ -44,8 +46,8 @@ class Institucion extends Model
 
     public function planes()
     {
-        return $this->belongsToMany(Plan::class, 'institucion_plan')
-            ->using(InstitucionPlan::class)
+        return $this->belongsToMany(ModelsPlan::class, 'institucion_plan')
+            ->using(ModelsInstitucionPlan::class)
             ->withPivot(['fecha_inicio', 'fecha_fin', 'estado', 'renovacion_automatica']);
     }
 

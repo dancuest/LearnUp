@@ -8,14 +8,6 @@ use App\Models\Curso;
 use App\Models\Institucion;
 use Illuminate\Support\Facades\DB;
 
-/**
- * OA\Info
- * (
- *      title = "Api LearnUp Documentation",
- *      version = "1.0.0",
- *      description = "LearnUp project Documentation",
- *  )
- */
 class CursoController extends Controller
 {
 

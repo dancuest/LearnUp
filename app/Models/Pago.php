@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Pago extends Model
 {
@@ -18,14 +19,16 @@ class Pago extends Model
     /**
      * One pay belongs to an user 
      */
-    public function pagos(): BelongsTo {
-        return $this -> belongsTo(User::class);
+    public function pagos(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 
     /**
      * 
      */
-    public function InstitucionAccedepago(): BelongsTo {
-        return $this -> belongsTo(Institucion::class);
+    public function InstitucionAccedepago(): BelongsTo
+    {
+        return $this->belongsTo(Institucion::class);
     }
 }

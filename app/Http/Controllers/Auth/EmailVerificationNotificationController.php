@@ -10,6 +10,25 @@ class EmailVerificationNotificationController extends Controller
 {
     /**
      * Send a new email verification notification.
+     * 
+     * @OA\Post(
+     *      path="/auth/email/verification-notification",
+     *      operationId="sendEmailVerificationNotification",
+     *      tags={"auth"},
+     *      summary="Send email verification notification",
+     *      description="Send a new email verification notification to the user.",
+     *      @OA\Response(
+     *          response=200,
+     *          description="Verification link sent successfully",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="status", type="string", example="verification-link-sent")
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="User already verified"
+     *      )
+     * )
      */
     public function store(Request $request): RedirectResponse
     {

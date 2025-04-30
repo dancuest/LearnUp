@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Entrega extends Model
 {
@@ -18,18 +19,21 @@ class Entrega extends Model
     /**
      * An activity is qualified by an user
      */
-    public function userCalifica(): BelongsTo {
-        return $this -> belongsTo(User::class, 'user_califica_id');
+    public function userCalifica(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'user_califica_id');
     }
 
     /**
      * An activity is sent by an user
      */
-    public function userEnvia(): BelongsTo {
-        return $this -> belongsTo(User::class, 'user_envia_id');
+    public function userEnvia(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'user_envia_id');
     }
 
-    public function entrega(): BelongsTo {
-        return $this -> belongsTo(Entregable::class);
+    public function entrega(): BelongsTo
+    {
+        return $this->belongsTo(Entregable::class);
     }
 }

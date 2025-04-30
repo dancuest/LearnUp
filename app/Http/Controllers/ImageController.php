@@ -11,7 +11,33 @@ use PHPUnit\Event\Runtime\PHP;
 class ImageController extends Controller
 {
     /**
-     * Almacena una imagen en S3 y actualiza la base de datos.
+     * Store an image in S3 and update the database.
+     * 
+     * @OA\Post(
+     *      path="/images",
+     *      operationId="storeImage",
+     *      tags={"images"},
+     *      summary="Store image",
+     *      description="Upload an image to S3 and update the database.",
+     *      @OA\RequestBody(
+     *          required=true,
+     *          @OA\JsonContent(
+     *              required={"file", "table", "row_id", "column"},
+     *              @OA\Property(property="file", type="string", format="binary"),
+     *              @OA\Property(property="table", type="string", example="users"),
+     *              @OA\Property(property="row_id", type="integer", example=1),
+     *              @OA\Property(property="column", type="string", example="profile_picture")
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Image uploaded successfully"
+     *      ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Validation error"
+     *      )
+     * )
      */
     public function store(Request $request)
     {
@@ -76,7 +102,32 @@ class ImageController extends Controller
     }
 
     /**
-     * Elimina una imagen de S3 y actualiza la base de datos.
+     * Delete an image from S3 and update the database.
+     * 
+     * @OA\Delete(
+     *      path="/images",
+     *      operationId="deleteImage",
+     *      tags={"images"},
+     *      summary="Delete image",
+     *      description="Delete an image from S3 and update the database.",
+     *      @OA\RequestBody(
+     *          required=true,
+     *          @OA\JsonContent(
+     *              required={"table", "row_id", "column"},
+     *              @OA\Property(property="table", type="string", example="users"),
+     *              @OA\Property(property="row_id", type="integer", example=1),
+     *              @OA\Property(property="column", type="string", example="profile_picture")
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Image deleted successfully"
+     *      ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Validation error"
+     *      )
+     * )
      */
     public function destroy(Request $request)
     {

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Respuesta extends Model
 {
@@ -14,15 +15,18 @@ class Respuesta extends Model
         'esCorrecto'
     ];
 
-    public function pregunta(): BelongsTo {
+    public function pregunta(): BelongsTo
+    {
         return $this->belongsTo(Pregunta::class);
     }
 
-    public function opcion(): BelongsTo {
+    public function opcion(): BelongsTo
+    {
         return $this->belongsTo(Opcion::class);
     }
 
-    public function intento(): BelongsTo {
+    public function intento(): BelongsTo
+    {
         return $this->belongsTo(Intento::class);
     }
 }
