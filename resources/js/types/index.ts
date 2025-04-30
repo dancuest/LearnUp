@@ -40,3 +40,45 @@ export interface PageProps extends InertiaPageProps {
         user?: User;
     };
 }
+
+export interface Institution {
+    id: number;
+    nombre: string;
+    descripcion: string;
+    tipo: string;
+    capacidad: number;
+    capacidad_limite: boolean;
+    imagen_perfil: string;
+    user_id: number;
+    creador?: {
+        id: number;
+        name: string;
+        email: string;
+    };
+    miembros?: {
+        id: number;
+        name: string;
+        rol: string;
+        estado: string;
+        estado_pago: string;
+        fecha_pago: string;
+    }[];
+    cursos?: {
+        id: number;
+        nombre: string;
+        descripcion: string;
+    }[];
+    planes?: {
+        id: number;
+        nombre: string;
+        fecha_inicio: string;
+        fecha_fin: string;
+        estado: string;
+        renovacion_automatica: boolean;
+    }[];
+    pagos?: {
+        id: number;
+        amount: number;
+        date: string;
+    }[];
+}
