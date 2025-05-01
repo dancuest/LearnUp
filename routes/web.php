@@ -7,6 +7,10 @@ Route::get('/', function () {
     return Inertia::render('homepage');
 })->name('home');
 
+Route::get('/institucion/{id}', function ($id) {
+    return Inertia::render('Institution', ['id' => $id]); // Updated to match React component name
+});
+
 Route::get('styles', function () {
     return Inertia::render('StyleGuide');
 })->name('styles');

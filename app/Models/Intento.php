@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Intento extends Model
 {
@@ -16,15 +18,18 @@ class Intento extends Model
     /**
      * An attemp (intento) is perform by an user
      */
-    public function userRealizaIntento(): BelongsTo {
-        return $this -> belongsTo(User::class);
+    public function userRealizaIntento(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 
-    public function respuesta(): HasMany {
+    public function respuesta(): HasMany
+    {
         return $this->hasMany(Respuesta::class);
     }
 
-    public function form(): BelongsTo {
+    public function form(): BelongsTo
+    {
         return $this->belongsTo(Formulario::class);
     }
 }

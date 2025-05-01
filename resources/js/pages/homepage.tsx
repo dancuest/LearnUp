@@ -3,18 +3,9 @@ import ListInstitutions from "@/components/list-institutions";
 import Navbar from "@/components/navbar";
 
 export default function Homepage() {
-    const propsNavbar = {
-        profileImage: "/imagenes/Item.png",
-    }
-    const propsTargetInstitucion = {
-        backgroundImage: "/imagenes/FondoUniversidad.jpg",
-        icon: "/imagenes/ItemUniversidad.png",
-        name: "Universidad del Valle",
-        enrolled: 199,
-    };
     return (
         <>
-            <Navbar props={propsNavbar} />
+            <Navbar />
             <div className="w-full flex justify-center px-8">
                 <Carrusel className="w-full mt-4 max-w-[1100px] h-[330px]"
                     imagenes={[

@@ -18,6 +18,25 @@ class NewPasswordController extends Controller
 {
     /**
      * Show the password reset page.
+     * 
+     * @OA\Get(
+     *      path="/auth/reset-password/{token}",
+     *      operationId="showPasswordResetPage",
+     *      tags={"auth"},
+     *      summary="Show password reset page",
+     *      description="Display the password reset page.",
+     *      @OA\Parameter(
+     *          name="token",
+     *          in="path",
+     *          description="Password reset token",
+     *          required=true,
+     *          @OA\Schema(type="string", example="abc123")
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Password reset page displayed"
+     *      )
+     * )
      */
     public function create(Request $request): Response
     {
@@ -29,8 +48,32 @@ class NewPasswordController extends Controller
 
     /**
      * Handle an incoming new password request.
-     *
-     * @throws \Illuminate\Validation\ValidationException
+     * 
+     * @OA\Post(
+     *      path="/auth/reset-password",
+     *      operationId="resetPassword",
+     *      tags={"auth"},
+     *      summary="Reset password",
+     *      description="Reset the user's password.",
+     *      @OA\RequestBody(
+     *          required=true,
+     *          @OA\JsonContent(
+     *              required={"email", "password", "password_confirmation", "token"},
+     *              @OA\Property(property="email", type="string", example="user@example.com"),
+     *              @OA\Property(property="password", type="string", example="newpassword123"),
+     *              @OA\Property(property="password_confirmation", type="string", example="newpassword123"),
+     *              @OA\Property(property="token", type="string", example="abc123")
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Password reset successfully"
+     *      ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Validation error"
+     *      )
+     * )
      */
     public function store(Request $request): RedirectResponse
     {

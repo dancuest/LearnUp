@@ -1,4 +1,5 @@
 import { LucideIcon } from 'lucide-react';
+import { PageProps as InertiaPageProps } from "@inertiajs/core";
 
 export interface Auth {
     user: User;
@@ -32,9 +33,52 @@ export interface User {
     id: number;
     name: string;
     email: string;
-    avatar?: string;
-    email_verified_at: string | null;
-    created_at: string;
-    updated_at: string;
-    [key: string]: unknown; // This allows for additional properties...
+    imagen_perfil?: string;
+}
+export interface PageProps extends InertiaPageProps {
+    auth?: {
+        user?: User;
+    };
+}
+
+export interface Institution {
+    id: number;
+    nombre: string;
+    descripcion: string;
+    tipo: string;
+    capacidad: number;
+    capacidad_limite: boolean;
+    imagen_perfil: string;
+    user_id: number;
+    creador?: {
+        id: number;
+        name: string;
+        email: string;
+    };
+    miembros?: {
+        id: number;
+        name: string;
+        rol: string;
+        estado: string;
+        estado_pago: string;
+        fecha_pago: string;
+    }[];
+    cursos?: {
+        id: number;
+        nombre: string;
+        descripcion: string;
+    }[];
+    planes?: {
+        id: number;
+        nombre: string;
+        fecha_inicio: string;
+        fecha_fin: string;
+        estado: string;
+        renovacion_automatica: boolean;
+    }[];
+    pagos?: {
+        id: number;
+        amount: number;
+        date: string;
+    }[];
 }

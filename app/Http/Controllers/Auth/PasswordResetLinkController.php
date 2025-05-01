@@ -13,6 +13,18 @@ class PasswordResetLinkController extends Controller
 {
     /**
      * Show the password reset link request page.
+     * 
+     * @OA\Get(
+     *      path="/auth/forgot-password",
+     *      operationId="showPasswordResetLinkRequestPage",
+     *      tags={"auth"},
+     *      summary="Show password reset link request page",
+     *      description="Display the password reset link request page.",
+     *      @OA\Response(
+     *          response=200,
+     *          description="Password reset link request page displayed"
+     *      )
+     * )
      */
     public function create(Request $request): Response
     {
@@ -23,8 +35,29 @@ class PasswordResetLinkController extends Controller
 
     /**
      * Handle an incoming password reset link request.
-     *
-     * @throws \Illuminate\Validation\ValidationException
+     * 
+     * @OA\Post(
+     *      path="/auth/forgot-password",
+     *      operationId="sendPasswordResetLink",
+     *      tags={"auth"},
+     *      summary="Send password reset link",
+     *      description="Send a password reset link to the user's email.",
+     *      @OA\RequestBody(
+     *          required=true,
+     *          @OA\JsonContent(
+     *              required={"email"},
+     *              @OA\Property(property="email", type="string", example="user@example.com")
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Password reset link sent successfully"
+     *      ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Invalid email address"
+     *      )
+     * )
      */
     public function store(Request $request): RedirectResponse
     {

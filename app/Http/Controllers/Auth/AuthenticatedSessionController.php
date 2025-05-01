@@ -15,6 +15,18 @@ class AuthenticatedSessionController extends Controller
 {
     /**
      * Show the login page.
+     * 
+     * @OA\Get(
+     *      path="/auth/login",
+     *      operationId="showLoginPage",
+     *      tags={"auth"},
+     *      summary="Show login page",
+     *      description="Display the login page.",
+     *      @OA\Response(
+     *          response=200,
+     *          description="Login page displayed"
+     *      )
+     * )
      */
     public function create(Request $request): Response
     {
@@ -26,6 +38,30 @@ class AuthenticatedSessionController extends Controller
 
     /**
      * Handle an incoming authentication request.
+     * 
+     * @OA\Post(
+     *      path="/auth/login",
+     *      operationId="loginUser",
+     *      tags={"auth"},
+     *      summary="Authenticate user",
+     *      description="Authenticate the user and start a session.",
+     *      @OA\RequestBody(
+     *          required=true,
+     *          @OA\JsonContent(
+     *              required={"email", "password"},
+     *              @OA\Property(property="email", type="string", example="user@example.com"),
+     *              @OA\Property(property="password", type="string", example="password123")
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="User authenticated successfully"
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Invalid credentials"
+     *      )
+     * )
      */
     public function store(LoginRequest $request): RedirectResponse
     {
@@ -38,6 +74,18 @@ class AuthenticatedSessionController extends Controller
 
     /**
      * Destroy an authenticated session.
+     * 
+     * @OA\Post(
+     *      path="/auth/logout",
+     *      operationId="logoutUser",
+     *      tags={"auth"},
+     *      summary="Logout user",
+     *      description="End the user's session.",
+     *      @OA\Response(
+     *          response=200,
+     *          description="User logged out successfully"
+     *      )
+     * )
      */
     public function destroy(Request $request): RedirectResponse
     {

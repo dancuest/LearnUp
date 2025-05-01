@@ -110,7 +110,7 @@ export default function Login({ status, canResetPassword }: LoginProps) {
                                 id="remember"
                                 name="remember"
                                 checked={data.remember}
-                                onChange={(e) => setData('remember', (e.target as HTMLInputElement).checked)}
+                                onCheckedChange={(checked) => setData('remember', !!checked)} // Use onCheckedChange for controlled behavior
                                 className={data.remember ? 'bg-blue-500 border-blue-500' : 'bg-white border-gray-500'}
                             />
                             <Label htmlFor="remember">Recuérdame</Label>
