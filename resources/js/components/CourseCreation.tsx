@@ -86,15 +86,20 @@ export default function FormCurso({ institucion_id }: FormCursoComponentProps) {
 
                     <div className="mb-4">
                         <Label htmlFor="costo">Costo del curso:</Label>
-                        <Input
-                            type="number"
-                            id="costo"
-                            className="mt-1 block w-full border-blue-600"
-                            placeholder="Ingrese el costo del curso"
-                            value={data.costo}
-                            onChange={(e) => setData('costo', parseFloat(e.target.value))}
-                            required
-                        />
+                        <div className="relative">
+                            <Input
+                                type="number"
+                                id="costo"
+                                className="mt-1 block w-full border-blue-600 pr-10"
+                                placeholder="Ingrese el costo del curso"
+                                value={data.costo}
+                                onChange={(e) => setData('costo', parseFloat(e.target.value))}
+                                required
+                            />
+                            <span className="absolute inset-y-0 right-3 flex items-center pointer-events-none text-gray-500">
+                                $
+                            </span>
+                        </div>
                     </div>
 
                     <div className="mb-4">
