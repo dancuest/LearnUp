@@ -7,10 +7,9 @@ import ListInstitutions from "@/components/list-institutions";
 import CursosList from "@/components/modifyCourse"; // Cambiado el nombre a mayúscula
 
 export default function StyleGuide() {
-    const propsNavbar = {
-        profileImage: "/imagenes/Item.png",
-    }
+    
     const propsTargetInstitucion = {
+        id: 1,
         backgroundImage: "/imagenes/FondoUniversidad.jpg",
         icon: "/imagenes/ItemUniversidad.png",
         name: "Universidad del Valle",
@@ -54,7 +53,7 @@ export default function StyleGuide() {
 
     return (
         <>
-            <Navbar props={propsNavbar} />
+            <Navbar />
             <div className="pages text-[#1b1b18]">
 
                 <div className="pt-20 p-6 lg:p-8">

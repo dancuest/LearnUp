@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useForm } from "@inertiajs/react";
+import { Inertia, Method } from "@inertiajs/inertia";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Label } from '@/components/ui/label';
@@ -80,18 +81,17 @@ export default function CursosList({ cursos, instituciones, onCursoUpdated }: Cu
             cancelButtonText: 'Cancelar'
         }).then((result) => {
             if (result.isConfirmed) {
-                // Aquí iría la llamada al backend para eliminar el curso
-                // Por ejemplo: delete(route('cursos.destroy', cursoId), {
-                //     onSuccess: () => {
-                //         showToast("Curso eliminado correctamente", true);
-                //         onCursoUpdated();
-                //     },
-                //     onError: () => {
-                //         showToast("Error al eliminar el curso", false);
-                //     }
-                // });
+                Inertia.visit(route('cursos.destroy', { id: cursoId }), {
+                    method: 'delete' as Method,
+                    onSuccess: () => {
+                        showToast("Curso eliminado correctamente", true);
+                        onCursoUpdated();
+                    },
+                    onError: () => {
+                        showToast("Error al eliminar el curso", false);
+                    },
+                });
                 
-                // Simulación de éxito para demostración
                 showToast("Curso eliminado correctamente", true);
                 onCursoUpdated();
             }
