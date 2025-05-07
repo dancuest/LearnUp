@@ -93,7 +93,11 @@ export default function InstitutionTarget({ props }: { props: InstitutionTargetP
     }
 
     return (
-        <a href={`/institucion/${id}`} className="flex justify-center items-center">
+        <a href={`/institucion/${id}`} className="flex justify-center items-center" onClick={(e) => {
+            if (e.target instanceof HTMLElement && e.target.closest("button")) {
+                e.preventDefault();
+            }
+        }}>
             <div className="w-[300px] bg-white dark:bg-gray-700 rounded-lg overflow-hidden shadow-lg flex flex-col">
                 <div
                     className="h-[80px] bg-cover bg-center"
@@ -113,7 +117,11 @@ export default function InstitutionTarget({ props }: { props: InstitutionTargetP
                     <p className="text-gray-700 dark:text-gray-300 text-sm">Número de Inscritos: {totalEnrolled}</p>
                     {!isEnrolled && user && (
                         <button
-                            onClick={ingresar}
+                            onClick={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                ingresar();
+                            }}
                             className="bg-blue-700 dark:bg-blue-600 text-white text-sm mt-2 px-6 py-2 rounded-lg shadow-md hover:bg-blue-800 dark:hover:bg-blue-700 transition">
                             Inscribirse
                         </button>
