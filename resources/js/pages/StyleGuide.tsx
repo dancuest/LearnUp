@@ -3,7 +3,9 @@ import Carrusel from "@/components/carrusel";
 import Navbar from "@/components/navbar";
 import UploadImageButton from "@/components/Buttons/upload-image-button";
 import FormInstitucion from "@/components/form-institucion";
+import CourseCreation from "@/components/CourseCreation";
 import ListInstitutions from "@/components/list-institutions";
+
 
 export default function StyleGuide() {
     const propsNavbar = {
@@ -42,6 +44,10 @@ export default function StyleGuide() {
                 <h2> Componente Target</h2>
                 <InstitutionTarget props={propsTargetInstitucion} />
                 <FormInstitucion />
+
+                <CourseCreation 
+                    institucion_id="12345" 
+                />
                 <Carrusel className="w-full max-w-[1100px] h-[350px]"
                     imagenes={[
                         "https://i.pinimg.com/736x/7f/ff/2b/7fff2be551c4e31b0bd1c648b10d2cb0.jpg",
